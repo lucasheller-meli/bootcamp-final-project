@@ -33,13 +33,13 @@ public class OrderServiceImpl implements OrderService {
 
         if(!verifySectionInWarehouse(inboundOrderRequest.getSectionId(), sections));
 
-        Order order = Order.builder()
+        InboundOrder inboundOrder = InboundOrder.builder()
                 .warehouse(warehouse)
                 .batch(convertBatchRequestToBatch(inboundOrderRequest.getBatches())).build();
 
-        Order orderSave = orderRepository.save(order);
+        InboundOrder inboundOrderSave = orderRepository.save(inboundOrder);
 
-        return convertBatchToBatchResponse(orderSave.getBatch());
+        return convertBatchToBatchResponse(inboundOrderSave.getBatch());
     }
 
     private Boolean verifySectionInWarehouse(Integer sectionId, List<Section> sections){
