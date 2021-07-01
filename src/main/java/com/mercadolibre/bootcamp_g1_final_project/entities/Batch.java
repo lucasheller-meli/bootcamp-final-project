@@ -1,5 +1,6 @@
 package com.mercadolibre.bootcamp_g1_final_project.entities;
 
+import lombok.Builder;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
+@Builder
 public class Batch {
 
     @Id

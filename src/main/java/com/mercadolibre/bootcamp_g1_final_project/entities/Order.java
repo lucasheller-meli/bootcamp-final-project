@@ -1,5 +1,6 @@
 package com.mercadolibre.bootcamp_g1_final_project.entities;
 
+import lombok.Builder;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Data
 @Entity
+@Builder
 public class Order {
 
     @Id

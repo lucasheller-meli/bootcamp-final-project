@@ -5,14 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d330cd3e-a7f2-480a-af6a-37edcc48a4b6" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/mercadolibre/bootcamp_g1_final_project/controller/OrderController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/mercadolibre/bootcamp_g1_final_project/controller/response/BatchResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/mercadolibre/bootcamp_g1_final_project/services/OrderService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/mercadolibre/bootcamp_g1_final_project/services/impl/OrderServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/application-integration_test.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/application-local.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/application-prod.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/application-test.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/application.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/banner.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/logback-spring.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mercadolibre/bootcamp_g1_final_project/controller/BatchController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mercadolibre/bootcamp_g1_final_project/services/BatchService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mercadolibre/bootcamp_g1_final_project/services/BatchService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mercadolibre/bootcamp_g1_final_project/services/impl/BatchServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mercadolibre/bootcamp_g1_final_project/services/impl/BatchServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +27,9 @@
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
         <projects_view>
           <tree_state>
             <expand>
@@ -88,6 +91,11 @@
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
     </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="gradle clean" />
+    </option>
   </component>
   <component name="RunManager" selected="Gradle.bootcamp-final-project [clean]">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
@@ -163,5 +171,16 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
