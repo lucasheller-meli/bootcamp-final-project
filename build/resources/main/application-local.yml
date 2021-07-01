@@ -1,0 +1,13 @@
+# Properties file for local/dev environment
+# You need to configure the environment variable in your IDE, more info in README.md
+# Overrides application.yml default properties
+
+spring:
+  datasource:
+    url: jdbc:mysql://proxysql.master.meliseginf.com:6612/g1fproject?useSSL=true&serverTimezone=UTC&characterEncoding=UTF-8
+    username:
+    password:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create

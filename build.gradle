@@ -1,0 +1,80 @@
+plugins {
+	id 'org.springframework.boot' version '2.4.2'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'java'
+	id 'jacoco'
+}
+
+group = 'com.mercadolibre'
+version = '0.0.1-SNAPSHOT'
+
+sourceCompatibility = 11
+targetCompatibility = 11
+
+repositories {
+    maven { url "https://maven.artifacts.furycloud.io/repository/all" }
+}
+
+bootJar {
+    archiveName 'application.jar'
+}
+
+dependencies {
+	// Spring
+	implementation('org.springframework.boot:spring-boot-starter-web'){
+    	exclude module: 'spring-boot-starter-tomcat'
+    }
+	implementation('org.springframework.boot:spring-boot-starter-jetty')
+	implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+	implementation('org.springframework.boot:spring-boot-starter-validation')
+	implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.16'
+	
+	//Meli Libs
+	implementation('com.fury:furyutils:0.0.2')
+	implementation('com.mercadolibre.json:json-core:0.0.13')
+	implementation('com.mercadolibre.json_jackson:json-jackson:0.0.13')
+	implementation('com.mercadolibre.resilience:resilience-core:1.1.1')
+	implementation('com.mercadolibre.metrics:metrics-core:0.0.13')
+	implementation('com.mercadolibre.metrics:datadog-metric-wrapper:0.0.13')
+	implementation('com.mercadolibre:threading:0.1.4')
+	implementation('com.mercadolibre:routing:2.2.1')
+
+	//Others
+	implementation('com.newrelic.agent.java:newrelic-api:6.3.0')
+	implementation('org.springdoc:springdoc-openapi-ui:1.5.2')
+
+	//Tests
+	testImplementation('org.springframework.boot:spring-boot-starter-test')
+	testImplementation('org.junit.jupiter:junit-jupiter-api:5.7.0')
+	testImplementation('org.junit.jupiter:junit-jupiter-engine:5.7.0')
+	testImplementation('org.junit.platform:junit-platform-engine:1.7.0')
+	testImplementation('org.junit.platform:junit-platform-launcher:1.7.0')
+	testImplementation('org.junit.platform:junit-platform-runner:1.7.0')
+ 	testImplementation('com.mercadolibre.restclient:restclient-core:0.3.51')
+	testImplementation('com.mercadolibre.restclient:restclient-core:0.3.51:tests')
+}
+
+test {
+	// Enable JUnit 5 (Gradle 4.6+).
+    useJUnitPlatform()
+
+    // Always run tests, even when nothing changed.
+    dependsOn 'cleanTest'
+
+    // Show test results.
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.5"
+    reportsDir = file("$buildDir/reports/jacoco")
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled false
+    }
+}
