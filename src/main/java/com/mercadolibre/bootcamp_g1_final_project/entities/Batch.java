@@ -16,22 +16,22 @@ public class Batch {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Integer id;
+    private Integer id;
 
     @ManyToOne
-    public Product product;
+    private Product product;
 
-    public Float currentTemperature;
+    private Float currentTemperature;
 
-    public Float minimumTemperature;
+    private Float minimumTemperature;
 
-    public Integer initialQuantity;
+    private Integer initialQuantity;
 
-    public Integer currentQuantity;
+    private Integer currentQuantity;
+
+    private LocalDateTime dueDate;
 
     @CreationTimestamp
-    public LocalDateTime manufacturingDate;
-
-    public LocalDateTime dueDate;
+    private LocalDateTime manufacturingDate;
 
 }

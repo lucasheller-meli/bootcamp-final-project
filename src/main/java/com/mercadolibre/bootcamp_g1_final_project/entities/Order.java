@@ -18,16 +18,16 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Integer id;
+    private Integer id;
 
     @ManyToOne
-    public Warehouse warehouse;
+    private Warehouse warehouse;
 
     @OneToMany
-    public List<Batch> batch;
+    private List<Batch> batch;
 
     @CreationTimestamp
-    public LocalDateTime orderDate;
+    private LocalDateTime orderDate;
 
 
 }
