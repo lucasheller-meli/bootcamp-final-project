@@ -4,8 +4,12 @@ import java.util.List;
 
 public class Warehouse {
 
+    private Integer id;
+
     private String location;
+
     private String name;
+
     private List<Section> section;
 
 }

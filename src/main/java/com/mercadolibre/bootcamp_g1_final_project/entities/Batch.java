@@ -4,12 +4,12 @@ import java.time.LocalDateTime;
 
 public class Batch {
 
-    public String batchNumber;
+    public Integer id;
     public Product product;
-    public String currentTemperature;
-    public String minimumTemperature;
-    public String initialQuantity;
-    public String currentQuantity;
+    public Float currentTemperature;
+    public Float minimumTemperature;
+    public Integer initialQuantity;
+    public Integer currentQuantity;
     public LocalDateTime manufacturingDate;
     public LocalDateTime manufacturingTime;
     public LocalDateTime dueDate;

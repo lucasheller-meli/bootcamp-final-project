@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d330cd3e-a7f2-480a-af6a-37edcc48a4b6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mercadolibre/bootcamp_g1_final_project/entities/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mercadolibre/bootcamp_g1_final_project/entities/Order.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,7 +122,7 @@
       <updated>1625142822198</updated>
       <workItem from="1625142824240" duration="1822000" />
       <workItem from="1625144883149" duration="1329000" />
-      <workItem from="1625152220920" duration="1924000" />
+      <workItem from="1625152220920" duration="2281000" />
     </task>
     <servers />
   </component>
