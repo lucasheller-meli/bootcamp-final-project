@@ -5,7 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d330cd3e-a7f2-480a-af6a-37edcc48a4b6" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mercadolibre/bootcamp_g1_final_project/entities/Batch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mercadolibre/bootcamp_g1_final_project/entities/Batch.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/mercadolibre/bootcamp_g1_final_project/entities/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mercadolibre/bootcamp_g1_final_project/entities/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mercadolibre/bootcamp_g1_final_project/entities/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mercadolibre/bootcamp_g1_final_project/entities/Product.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mercadolibre/bootcamp_g1_final_project/entities/Section.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mercadolibre/bootcamp_g1_final_project/entities/Section.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mercadolibre/bootcamp_g1_final_project/entities/Warehouse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mercadolibre/bootcamp_g1_final_project/entities/Warehouse.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,6 +45,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="ProjectId" id="1uiK9td5jJhMwtvjdtErTIcChis" />
   <component name="ProjectViewState">
@@ -122,7 +136,7 @@
       <updated>1625142822198</updated>
       <workItem from="1625142824240" duration="1822000" />
       <workItem from="1625144883149" duration="1329000" />
-      <workItem from="1625152220920" duration="2281000" />
+      <workItem from="1625152220920" duration="4969000" />
     </task>
     <servers />
   </component>

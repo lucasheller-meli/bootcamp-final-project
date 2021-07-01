@@ -28,6 +28,7 @@ dependencies {
 	implementation('org.springframework.boot:spring-boot-starter-data-jpa')
 	implementation('org.springframework.boot:spring-boot-starter-validation')
 	implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.16'
+	compileOnly('org.projectlombok:lombok:1.18.12')
 	
 	//Meli Libs
 	implementation('com.fury:furyutils:0.0.2')
