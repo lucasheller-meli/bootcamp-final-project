@@ -16,11 +16,12 @@ import java.util.List;
 
 @Service
 public class OrderServiceImpl implements OrderService {
+
+
     private final OrderRepository orderRepository;
     private final WarehouseService warehouseService;
     private final SectionService sectionService;
     private final ProductService productService;
-
 
     public OrderServiceImpl(OrderRepository orderRepository, WarehouseService warehouseService, SectionService sectionService, ProductService productService) {
         this.orderRepository = orderRepository;
@@ -28,6 +29,7 @@ public class OrderServiceImpl implements OrderService {
         this.sectionService = sectionService;
         this.productService = productService;
     }
+
 
     public List<BatchResponse> inboundOrder(InboundOrderRequest inboundOrderRequest){
 
