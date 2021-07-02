@@ -21,5 +21,5 @@ public class Section {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-
+    private ProductType type;
 }

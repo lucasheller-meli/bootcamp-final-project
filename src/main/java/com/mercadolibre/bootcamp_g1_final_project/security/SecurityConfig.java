@@ -1,9 +1,8 @@
 package com.mercadolibre.bootcamp_g1_final_project.security;
 
-import com.mercadolibre.bootcamp_g1_final_project.services.UserService;
+import com.mercadolibre.bootcamp_g1_final_project.repositories.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,20 +10,20 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private final TokenService tokenService;
-    private final UserService userService;
-    private final AuthService authService;
+    private final UserRepository repository;
+    private final AuthWithToken authWithToken;
 
-    public SecurityConfig(TokenService tokenService, UserService userService, AuthService authService) {
-        this.tokenService = tokenService;
-        this.userService = userService;
-        this.authService = authService;
+    public SecurityConfig(UserRepository repository, AuthWithToken authWithToken) {
+        this.repository = repository;
+        this.authWithToken = authWithToken;
     }
 
     @Override
@@ -33,9 +32,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManager();
     }
 
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception{
-        auth.userDetailsService(authService).passwordEncoder(new BCryptPasswordEncoder());
+        auth.userDetailsService(username ->
+                repository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException(String.format("Email '%s' not found", username)))
+        ).passwordEncoder(new BCryptPasswordEncoder());
     }
 
     @Override
@@ -48,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilterBefore(new AuthWithToken(tokenService,userService), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(authWithToken, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
