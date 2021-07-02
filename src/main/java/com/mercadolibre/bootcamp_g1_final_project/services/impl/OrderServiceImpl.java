@@ -4,8 +4,8 @@ import com.mercadolibre.bootcamp_g1_final_project.controller.request.BatchReques
 import com.mercadolibre.bootcamp_g1_final_project.controller.request.InboundOrderRequest;
 import com.mercadolibre.bootcamp_g1_final_project.controller.response.BatchResponse;
 import com.mercadolibre.bootcamp_g1_final_project.entities.*;
-import com.mercadolibre.bootcamp_g1_final_project.exceptions.NotFoundSectionInWarehouseException;
-import com.mercadolibre.bootcamp_g1_final_project.exceptions.ProductNotFoundException;
+import com.mercadolibre.bootcamp_g1_final_project.exceptions.SectionInWarehouseNotFoundException;
+import com.mercadolibre.bootcamp_g1_final_project.exceptions.ProductNotExistException;
 import com.mercadolibre.bootcamp_g1_final_project.repositories.OrderRepository;
 import com.mercadolibre.bootcamp_g1_final_project.services.OrderService;
 import com.mercadolibre.bootcamp_g1_final_project.services.ProductService;
@@ -33,12 +33,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
-    public List<BatchResponse> inboundOrder(InboundOrderRequest inboundOrderRequest) throws NotFoundSectionInWarehouseException {
+    public List<BatchResponse> inboundOrder(InboundOrderRequest inboundOrderRequest) throws SectionInWarehouseNotFoundException {
 
         Warehouse warehouse = warehouseService.findById(inboundOrderRequest.getWarehouseId());
         List<Section> sections = warehouse.getSection();
 
-        if(!verifySectionInWarehouse(inboundOrderRequest.getSectionId(), sections)) throw new NotFoundSectionInWarehouseException();
+        if(!verifySectionInWarehouse(inboundOrderRequest.getSectionId(), sections)) throw new SectionInWarehouseNotFoundException();
 
         InboundOrder inboundOrder = InboundOrder.builder()
                 .warehouse(warehouse)
@@ -61,7 +61,7 @@ public class OrderServiceImpl implements OrderService {
         return false;
     }
 
-    private List<Batch> convertBatchRequestToBatch(List<BatchRequest> batchRequests) throws ProductNotFoundException {
+    private List<Batch> convertBatchRequestToBatch(List<BatchRequest> batchRequests){
 
         List<Batch> batchList = new ArrayList<>();
 

@@ -2,7 +2,7 @@ package com.mercadolibre.bootcamp_g1_final_project.controller;
 
 import com.mercadolibre.bootcamp_g1_final_project.controller.request.InboundOrderRequest;
 import com.mercadolibre.bootcamp_g1_final_project.controller.response.BatchResponse;
-import com.mercadolibre.bootcamp_g1_final_project.exceptions.NotFoundSectionInWarehouseException;
+import com.mercadolibre.bootcamp_g1_final_project.exceptions.SectionInWarehouseNotFoundException;
 import com.mercadolibre.bootcamp_g1_final_project.services.OrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ public class OrderController {
 
     @PostMapping("/inboundorder")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<List<BatchResponse>> inboundOrder(@RequestBody InboundOrderRequest inboundOrderRequest) throws NotFoundSectionInWarehouseException {
+    public ResponseEntity<List<BatchResponse>> inboundOrder(@RequestBody InboundOrderRequest inboundOrderRequest) throws SectionInWarehouseNotFoundException {
         return ResponseEntity.ok(orderService.inboundOrder(inboundOrderRequest));
     }
 }

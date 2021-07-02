@@ -1,9 +1,6 @@
 package com.mercadolibre.bootcamp_g1_final_project.config;
 
-import com.mercadolibre.bootcamp_g1_final_project.exceptions.ApiError;
-import com.mercadolibre.bootcamp_g1_final_project.exceptions.ApiException;
-import com.mercadolibre.bootcamp_g1_final_project.exceptions.NotFoundSectionException;
-import com.mercadolibre.bootcamp_g1_final_project.exceptions.NotFoundSectionInWarehouseException;
+import com.mercadolibre.bootcamp_g1_final_project.exceptions.*;
 import com.newrelic.api.agent.NewRelic;
 import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
@@ -55,15 +52,29 @@ public class ControllerExceptionHandler {
 
 	@ResponseBody
 	@ResponseStatus(HttpStatus.NOT_FOUND)
-	@ExceptionHandler(value = NotFoundSectionInWarehouseException.class)
-	public String NotFoundSectionInWarehouseException(NotFoundSectionInWarehouseException notFoundSectionInWarehouse) {
+	@ExceptionHandler(value = SectionInWarehouseNotFoundException.class)
+	public String NotFoundSectionInWarehouseException(SectionInWarehouseNotFoundException notFoundSectionInWarehouse) {
 		return notFoundSectionInWarehouse.getMessage();
 	}
 
 	@ResponseBody
 	@ResponseStatus(HttpStatus.NOT_FOUND)
-	@ExceptionHandler(value = NotFoundSectionException.class)
-	public String NotFoundSectionException(NotFoundSectionException notFoundSectionException) {
+	@ExceptionHandler(value = SectionNotExistException.class)
+	public String NotExistSectionException(SectionNotExistException notFoundSectionException) {
 		return notFoundSectionException.getMessage();
+	}
+
+	@ResponseBody
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	@ExceptionHandler(value = ProductNotExistException.class)
+	public String NotExistProductException(ProductNotExistException productNotExistException) {
+		return productNotExistException.getMessage();
+	}
+
+	@ResponseBody
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	@ExceptionHandler(value = WarehouseNotExistException.class)
+	public String NotExistWarehouseException(WarehouseNotExistException warehouseNotExistException) {
+		return warehouseNotExistException.getMessage();
 	}
 }
