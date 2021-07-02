@@ -4,6 +4,8 @@ import com.mercadolibre.bootcamp_g1_final_project.controller.request.BatchReques
 import com.mercadolibre.bootcamp_g1_final_project.controller.request.InboundOrderRequest;
 import com.mercadolibre.bootcamp_g1_final_project.controller.response.BatchResponse;
 import com.mercadolibre.bootcamp_g1_final_project.entities.*;
+import com.mercadolibre.bootcamp_g1_final_project.exceptions.NotFoundSectionInWarehouseException;
+import com.mercadolibre.bootcamp_g1_final_project.exceptions.ProductNotFoundException;
 import com.mercadolibre.bootcamp_g1_final_project.repositories.OrderRepository;
 import com.mercadolibre.bootcamp_g1_final_project.services.OrderService;
 import com.mercadolibre.bootcamp_g1_final_project.services.ProductService;
@@ -31,12 +33,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
-    public List<BatchResponse> inboundOrder(InboundOrderRequest inboundOrderRequest){
+    public List<BatchResponse> inboundOrder(InboundOrderRequest inboundOrderRequest) throws NotFoundSectionInWarehouseException {
 
         Warehouse warehouse = warehouseService.findById(inboundOrderRequest.getWarehouseId());
         List<Section> sections = warehouse.getSection();
 
-        if(!verifySectionInWarehouse(inboundOrderRequest.getSectionId(), sections));
+        if(!verifySectionInWarehouse(inboundOrderRequest.getSectionId(), sections)) throw new NotFoundSectionInWarehouseException();
 
         InboundOrder inboundOrder = InboundOrder.builder()
                 .warehouse(warehouse)
@@ -59,7 +61,7 @@ public class OrderServiceImpl implements OrderService {
         return false;
     }
 
-    private List<Batch> convertBatchRequestToBatch(List<BatchRequest> batchRequests){
+    private List<Batch> convertBatchRequestToBatch(List<BatchRequest> batchRequests) throws ProductNotFoundException {
 
         List<Batch> batchList = new ArrayList<>();
 

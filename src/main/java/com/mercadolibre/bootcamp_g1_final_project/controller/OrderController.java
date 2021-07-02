@@ -2,15 +2,12 @@ package com.mercadolibre.bootcamp_g1_final_project.controller;
 
 import com.mercadolibre.bootcamp_g1_final_project.controller.request.InboundOrderRequest;
 import com.mercadolibre.bootcamp_g1_final_project.controller.response.BatchResponse;
-import com.mercadolibre.bootcamp_g1_final_project.entities.Warehouse;
+import com.mercadolibre.bootcamp_g1_final_project.exceptions.NotFoundSectionInWarehouseException;
 import com.mercadolibre.bootcamp_g1_final_project.services.OrderService;
-import com.mercadolibre.bootcamp_g1_final_project.services.WarehouseService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -24,7 +21,7 @@ public class OrderController {
 
     @PostMapping("/inboundorder")
     @ResponseStatus(HttpStatus.CREATED)
-    public List<BatchResponse> inboundOrder(@RequestBody InboundOrderRequest inboundOrderRequest){
-        return orderService.inboundOrder(inboundOrderRequest);
+    public ResponseEntity<List<BatchResponse>> inboundOrder(@RequestBody InboundOrderRequest inboundOrderRequest) throws NotFoundSectionInWarehouseException {
+        return ResponseEntity.ok(orderService.inboundOrder(inboundOrderRequest));
     }
 }
