@@ -1,4 +1,4 @@
-package com.mercadolibre.bootcamp_g1_final_project.services.impl;
+package com.mercadolibre.bootcamp_g1_final_project.services;
 
 import com.mercadolibre.bootcamp_g1_final_project.entities.Section;
 
