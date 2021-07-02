@@ -14,7 +14,7 @@ public class TokenService {
 
     private String expiration;
 
-    private String secret;
+    private String secret = "asjeb@$*DNS@(CUY@C(#ENDCBF#R*R";
 
     public String generateToken(Authentication authentication){
         final User user = (User) authentication.getPrincipal();

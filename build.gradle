@@ -50,7 +50,6 @@ dependencies {
 
 	//Others
 	implementation('com.newrelic.agent.java:newrelic-api:6.3.0')
-	implementation('org.springdoc:springdoc-openapi-ui:1.5.2')
 
 	//Tests
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
