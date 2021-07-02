@@ -5,14 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d330cd3e-a7f2-480a-af6a-37edcc48a4b6" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/application-integration_test.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/application-local.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/application-prod.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/application-test.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/application.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/banner.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/logback-spring.xml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,17 +86,6 @@
     </key>
   </component>
   <component name="RunManager" selected="Gradle.bootcamp-final-project [clean]">
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="bootcamp-final-project [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -158,6 +143,7 @@
       <workItem from="1625142824240" duration="1822000" />
       <workItem from="1625144883149" duration="1329000" />
       <workItem from="1625152220920" duration="4969000" />
+      <workItem from="1625250079685" duration="16000" />
     </task>
     <servers />
   </component>
