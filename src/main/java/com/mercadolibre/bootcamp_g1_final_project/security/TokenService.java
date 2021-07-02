@@ -1,6 +1,5 @@
 package com.mercadolibre.bootcamp_g1_final_project.security;
 
-import com.mercadolibre.bootcamp_g1_final_project.entities.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

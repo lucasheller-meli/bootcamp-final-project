@@ -17,18 +17,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
     private final TokenService tokenService;
     private final UserService userService;
     private final AuthService authService;
-
 
     public SecurityConfig(TokenService tokenService, UserService userService, AuthService authService) {
         this.tokenService = tokenService;
         this.userService = userService;
         this.authService = authService;
     }
-
 
     @Override
     @Bean
@@ -44,9 +41,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception{
         http.authorizeRequests()
-                .antMatchers(HttpMethod.POST,"/*").permitAll()
-                .antMatchers(HttpMethod.GET,"/*").permitAll()
                 .antMatchers("/v2/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                .antMatchers("/ping").permitAll()
+                .antMatchers("/api/v1/auth/login").permitAll()
                 .anyRequest().authenticated()
                 .and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

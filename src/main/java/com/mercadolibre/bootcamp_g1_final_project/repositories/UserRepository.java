@@ -1,7 +1,6 @@
 package com.mercadolibre.bootcamp_g1_final_project.repositories;
 
-import com.mercadolibre.bootcamp_g1_final_project.entities.User;
-import com.mercadolibre.bootcamp_g1_final_project.entities.Warehouse;
+import com.mercadolibre.bootcamp_g1_final_project.entities.users.User;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;

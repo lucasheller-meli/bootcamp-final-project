@@ -1,6 +1,6 @@
 package com.mercadolibre.bootcamp_g1_final_project.security;
 
-import com.mercadolibre.bootcamp_g1_final_project.entities.User;
+import com.mercadolibre.bootcamp_g1_final_project.entities.users.User;
 import com.mercadolibre.bootcamp_g1_final_project.services.UserService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
