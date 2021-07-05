@@ -6,6 +6,7 @@ import com.mercadolibre.bootcamp_g1_final_project.services.UserService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -30,15 +31,17 @@ public class AuthWithToken extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         final String token = getToken(request);
         boolean isValid = tokenService.isTokenValid(token);
-        if(isValid){
-        authClient(token);
+        if(isValid) {
+            authClient(token, request);
         }
         filterChain.doFilter(request,response);
     }
-    private void authClient(String token){
+
+    private void authClient(String token, HttpServletRequest request){
         final Integer userId = tokenService.getUserIdByToken(token);
         final User user = repository.findById(userId).orElseThrow(() -> new UsernameNotFoundException(String.format("User with id '%s' not found", userId)));
         final UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+        auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(auth);
     }
 

@@ -6,9 +6,9 @@ public enum UserRole implements GrantedAuthority {
     BUYER(Name.BUYER), SELLER(Name.SELLER), REPRESENTATIVE(Name.REPRESENTATIVE);
 
     public static class Name {
-        public static final String BUYER = "Buyer";
-        public static final String SELLER = "Seller";
-        public static final String REPRESENTATIVE = "Representative";
+        public static final String BUYER = "BUYER";
+        public static final String SELLER = "SELLER";
+        public static final String REPRESENTATIVE = "REPRESENTATIVE";
     }
 
     private final String authority;
