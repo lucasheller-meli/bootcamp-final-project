@@ -47,6 +47,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         .date(savedOrder.getOrderDate())
         .buyerId(buyer.getId())
         .products(responseProducts(purchaseProducts))
+        .totalPrice(totalPrice(purchaseProducts))
         .build();
   }
 
@@ -104,5 +105,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             .quantity(product.getQuantity())
             .build())
         .collect(Collectors.toList());
+  }
+
+  private Double totalPrice(List<PurchaseProduct> products) {
+    return products.stream().mapToDouble(product -> product.getProduct().getPrice() * product.getQuantity()).sum();
   }
 }
