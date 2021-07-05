@@ -1,5 +1,6 @@
 package com.mercadolibre.bootcamp_g1_final_project.entities;
 
+import com.mercadolibre.bootcamp_g1_final_project.entities.users.Representative;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,6 +28,9 @@ public class InboundOrder {
 
     @OneToMany(cascade= CascadeType.ALL)
     private List<Batch> batch;
+
+    @ManyToOne
+    private Representative representative;
 
     @CreationTimestamp
     private LocalDateTime orderDate;
