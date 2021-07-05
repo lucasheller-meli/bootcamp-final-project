@@ -12,7 +12,10 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class BatchRequest {
+
+    private Integer id;
 
     @NotNull(message = "Product id cant be null")
     private Integer productId;
