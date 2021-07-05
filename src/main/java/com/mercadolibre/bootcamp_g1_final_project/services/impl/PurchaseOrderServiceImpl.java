@@ -39,15 +39,15 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     updateBatchesProductQuantities(products);
 
     Buyer buyer = (Buyer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    List<PurchaseProduct> purchaseProducts = mappedProducts(products);
-    PurchaseOrder savedOrder = purchaseOrderRepository.save(PurchaseOrder.builder().buyer(buyer).products(purchaseProducts).build());
+    PurchaseOrder savedOrder = purchaseOrderRepository.save(PurchaseOrder.builder().buyer(buyer).products(mappedProducts(products)).build());
+    List<PurchaseProduct> purchasedProducts = savedOrder.getProducts();
 
     return PurchaseOrderResponse.builder()
         .id(savedOrder.getId())
         .date(savedOrder.getOrderDate())
         .buyerId(buyer.getId())
-        .products(responseProducts(purchaseProducts))
-        .totalPrice(totalPrice(purchaseProducts))
+        .products(responseProducts(purchasedProducts))
+        .totalPrice(totalPrice(purchasedProducts))
         .build();
   }
 
