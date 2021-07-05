@@ -1,12 +1,16 @@
 package com.mercadolibre.bootcamp_g1_final_project.controller.request;
 
+import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Data
+@Builder
 public class BatchRequest {
+
+    private Integer id;
 
     @NotNull(message = "Product id cant be null")
     private Integer productId;
