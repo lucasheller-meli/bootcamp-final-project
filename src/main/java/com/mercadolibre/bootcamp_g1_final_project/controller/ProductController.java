@@ -4,6 +4,7 @@ import com.mercadolibre.bootcamp_g1_final_project.controller.response.ProductsRe
 import com.mercadolibre.bootcamp_g1_final_project.services.ProductService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -18,8 +19,9 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping
-    public List<ProductsResponse> findAll(){
-        return productService.listProducts();
+    @GetMapping("/list")
+    public List<ProductsResponse> listProduct(@RequestParam(required = false) String category){
+        return productService.listProducts(category);
     }
+
 }

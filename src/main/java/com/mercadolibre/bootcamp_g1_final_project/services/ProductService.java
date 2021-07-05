@@ -8,5 +8,6 @@ import java.util.List;
 public interface ProductService {
     Product findById(Integer id);
 
-    List<ProductsResponse> listProducts();
+    List<ProductsResponse> listProducts(String category);
+
 }
