@@ -77,4 +77,11 @@ public class ControllerExceptionHandler {
 	public String NotExistWarehouseException(WarehouseNotExistException warehouseNotExistException) {
 		return warehouseNotExistException.getMessage();
 	}
+
+	@ResponseBody
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	@ExceptionHandler(value = PageNotFoundException.class)
+	public String PageNotFound404Error(PageNotFoundException pageNotFoundException) {
+		return pageNotFoundException.getMessage();
+	}
 }
