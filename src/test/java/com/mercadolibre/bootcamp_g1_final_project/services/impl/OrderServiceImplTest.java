@@ -110,6 +110,7 @@ class OrderServiceImplTest {
         //assert
         assertEquals(batchResponseListExpected.size(), batchResponseList.size());
 
+
     }
 
     // FAILED TEST
@@ -176,14 +177,4 @@ class OrderServiceImplTest {
         assertEquals(messageExpected, exception.getMessage());
     }
 
-    //PRECISA DESSES?
-    @Test
-    void shouldNotConvertBatchRequestToBatch(){
-
-    }
-
-    @Test
-    void shouldNotConvertBatchToBatchResponse(){
-
-    }
 }
