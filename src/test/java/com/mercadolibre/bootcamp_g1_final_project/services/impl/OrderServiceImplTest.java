@@ -9,13 +9,25 @@ import com.mercadolibre.bootcamp_g1_final_project.exceptions.SectionInWarehouseN
 import com.mercadolibre.bootcamp_g1_final_project.exceptions.SectionNotExistException;
 import com.mercadolibre.bootcamp_g1_final_project.exceptions.WarehouseNotExistException;
 import com.mercadolibre.bootcamp_g1_final_project.repositories.OrderRepository;
-import org.junit.jupiter.api.BeforeAll;
+
+
+import com.mercadolibre.bootcamp_g1_final_project.controller.request.InboundOrderUpdateRequest;
+import com.mercadolibre.bootcamp_g1_final_project.controller.response.BatchResponse;
+import com.mercadolibre.bootcamp_g1_final_project.entities.Batch;
+import com.mercadolibre.bootcamp_g1_final_project.entities.InboundOrder;
+import com.mercadolibre.bootcamp_g1_final_project.entities.Product;
+import com.mercadolibre.bootcamp_g1_final_project.entities.Warehouse;
+import com.mercadolibre.bootcamp_g1_final_project.exceptions.InboundOrderNotFound;
+import com.mercadolibre.bootcamp_g1_final_project.repositories.InboundOrderRepository;
+import com.mercadolibre.bootcamp_g1_final_project.services.ProductService;
+import com.mercadolibre.bootcamp_g1_final_project.util.MockitoExtension;
+import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -25,8 +37,11 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 
+import java.util.Optional;
+
 @ExtendWith(MockitoExtension.class)
 class OrderServiceImplTest {
+
 
     private BatchResponse batchResponseTest;
     LocalDateTime orderDateTest = LocalDateTime.now();
@@ -39,6 +54,8 @@ class OrderServiceImplTest {
     private ProductServiceImpl productServiceTest;
     @Mock
     private OrderRepository orderRepositoryTest;
+    @Mock
+    private InboundOrderRepository inboundOrderRepository;
     @InjectMocks
     private OrderServiceImpl orderServiceTest;
 
@@ -177,4 +194,37 @@ class OrderServiceImplTest {
         assertEquals(messageExpected, exception.getMessage());
     }
 
+    @Test
+    public void updateWithSucess() {
+        InboundOrderUpdateRequest requestMock = InboundOrderUpdateRequest.builder().batches(List.of(BatchRequest.builder()
+                .currentTemperature(12F)
+                .minimumTemperature(8F).id(10)
+                .productId(2)
+                .dueDate(LocalDateTime.now())
+                .quantity(5).build())).build();
+        InboundOrder orderMock = InboundOrder.builder().id(1)
+                .warehouse(Warehouse.builder().id(1).name("ws_sp").location("sp").build())
+                .batch(List.of(Batch.builder().id(12)
+                        .currentTemperature(12F)
+                        .minimumTemperature(8F)
+                        .product(Product.builder().name("ameixa").id(1).build())
+                        .dueDate(LocalDateTime.now())
+                        .currentQuantity(3)
+                        .initialQuantity(5).build())).build();
+        Product productMock = Product.builder().name("banana").id(2).build();
+        Mockito.when(inboundOrderRepository.findById(1)).thenReturn(Optional.of(orderMock));
+        Mockito.when(productServiceTest.findById(2)).thenReturn(productMock);
+
+        List<BatchResponse> actualList = orderServiceTest.updateInboundOrder(1, requestMock);
+
+        Assertions.assertEquals(2,actualList.size());
+    }
+
+    @Test
+    public void inboundOrderNotFound() {
+        Mockito.when(inboundOrderRepository.findById(1)).thenReturn(Optional.empty());
+        Assertions.assertThrows(InboundOrderNotFound.class, () -> this.orderServiceTest.updateInboundOrder(1, InboundOrderUpdateRequest.builder().build()));
+    }
+
 }
+

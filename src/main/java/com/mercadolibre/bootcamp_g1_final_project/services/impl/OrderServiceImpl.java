@@ -5,6 +5,7 @@ import com.mercadolibre.bootcamp_g1_final_project.controller.request.InboundOrde
 import com.mercadolibre.bootcamp_g1_final_project.controller.request.InboundOrderRequest;
 import com.mercadolibre.bootcamp_g1_final_project.controller.response.BatchResponse;
 import com.mercadolibre.bootcamp_g1_final_project.entities.*;
+import com.mercadolibre.bootcamp_g1_final_project.exceptions.InboundOrderNotFound;
 import com.mercadolibre.bootcamp_g1_final_project.repositories.InboundOrderRepository;
 import com.mercadolibre.bootcamp_g1_final_project.exceptions.SectionInWarehouseNotFoundException;
 import com.mercadolibre.bootcamp_g1_final_project.exceptions.ProductNotExistException;
@@ -60,7 +61,7 @@ public class OrderServiceImpl implements OrderService {
 
 
     public List<BatchResponse> updateInboundOrder(Integer id, InboundOrderUpdateRequest inboundOrderUpdateRequest) {
-        InboundOrder order = inboundOrderRepository.findById(id).orElseThrow(() -> new RuntimeException("lascou"));
+        InboundOrder order = inboundOrderRepository.findById(id).orElseThrow(() -> new InboundOrderNotFound(id));
         refreshOrAddBatches(order,convertBatchRequestToBatch(inboundOrderUpdateRequest.getBatches()));
         inboundOrderRepository.save(order);
         return convertBatchToBatchResponse(order.getBatch());
