@@ -6,6 +6,8 @@ import com.mercadolibre.bootcamp_g1_final_project.controller.request.InboundOrde
 import com.mercadolibre.bootcamp_g1_final_project.controller.response.BatchResponse;
 import com.mercadolibre.bootcamp_g1_final_project.entities.*;
 import com.mercadolibre.bootcamp_g1_final_project.repositories.InboundOrderRepository;
+import com.mercadolibre.bootcamp_g1_final_project.exceptions.SectionInWarehouseNotFoundException;
+import com.mercadolibre.bootcamp_g1_final_project.exceptions.ProductNotExistException;
 import com.mercadolibre.bootcamp_g1_final_project.repositories.OrderRepository;
 import com.mercadolibre.bootcamp_g1_final_project.services.OrderService;
 import com.mercadolibre.bootcamp_g1_final_project.services.ProductService;
@@ -21,11 +23,14 @@ import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
+
+
     private final OrderRepository orderRepository;
     private final InboundOrderRepository inboundOrderRepository;
     private final WarehouseService warehouseService;
     private final SectionService sectionService;
     private final ProductService productService;
+
 
 
     public OrderServiceImpl(OrderRepository orderRepository, WarehouseService warehouseService, SectionService sectionService, ProductService productService, InboundOrderRepository inboundOrderRepository) {
@@ -36,12 +41,13 @@ public class OrderServiceImpl implements OrderService {
         this.productService = productService;
     }
 
-    public List<BatchResponse> inboundOrder(InboundOrderRequest inboundOrderRequest){
+
+    public List<BatchResponse> inboundOrder(InboundOrderRequest inboundOrderRequest) throws SectionInWarehouseNotFoundException {
 
         Warehouse warehouse = warehouseService.findById(inboundOrderRequest.getWarehouseId());
         List<Section> sections = warehouse.getSection();
 
-        if(!verifySectionInWarehouse(inboundOrderRequest.getSectionId(), sections));
+        if(!verifySectionInWarehouse(inboundOrderRequest.getSectionId(), sections)) throw new SectionInWarehouseNotFoundException();
 
         InboundOrder inboundOrder = InboundOrder.builder()
                 .warehouse(warehouse)

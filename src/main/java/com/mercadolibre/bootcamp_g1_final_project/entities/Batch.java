@@ -27,6 +27,9 @@ public class Batch {
     @ManyToOne
     private Product product;
 
+    @ManyToOne
+    private Section sector;
+
     private Float currentTemperature;
 
     private Float minimumTemperature;

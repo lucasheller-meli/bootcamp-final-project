@@ -1,5 +1,6 @@
 package com.mercadolibre.bootcamp_g1_final_project.entities;
 
+import com.mercadolibre.bootcamp_g1_final_project.entities.users.Representative;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -35,4 +36,6 @@ public class Warehouse {
     @JoinColumn(name = "warehouse_id")
     private List<Section> section;
 
+    @OneToMany
+    private List<Representative> representatives;
 }
