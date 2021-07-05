@@ -17,4 +17,8 @@ public class BatchServiceImpl {
     public List<Batch> findBatchesByProductId(Integer productId) {
         return batchRepository.findBatchesByProductId(productId);
     }
+
+    public Batch save(Batch batch) {
+        return batchRepository.save(batch);
+    }
 }

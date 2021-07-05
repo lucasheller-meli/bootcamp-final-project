@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -28,5 +28,5 @@ public class PurchaseOrder {
   private List<PurchaseProduct> products;
 
   @CreationTimestamp
-  private LocalDateTime orderDate;
+  private LocalDate orderDate;
 }
