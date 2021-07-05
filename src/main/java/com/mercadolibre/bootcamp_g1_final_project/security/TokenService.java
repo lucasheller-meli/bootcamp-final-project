@@ -11,10 +11,7 @@ import java.util.Date;
 
 @Service
 public class TokenService {
-
-    private String expiration;
-
-    private String secret = "asjeb@$*DNS@(CUY@C(#ENDCBF#R*R";
+    private final String secret = "asjeb@$*DNS@(CUY@C(#ENDCBF#R*R";
 
     public String generateToken(Authentication authentication){
         final User user = (User) authentication.getPrincipal();
@@ -42,6 +39,4 @@ public class TokenService {
         final Claims claims = Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token).getBody();
         return Integer.parseInt(claims.getSubject());
     }
-
-
 }

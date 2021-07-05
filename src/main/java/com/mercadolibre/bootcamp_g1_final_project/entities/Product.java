@@ -25,4 +25,6 @@ public class Product {
     private Seller seller;
 
     private ProductType type;
+
+    private Double price;
 }
