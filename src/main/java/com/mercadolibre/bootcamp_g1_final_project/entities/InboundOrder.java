@@ -1,30 +1,36 @@
 package com.mercadolibre.bootcamp_g1_final_project.entities;
 
+import com.mercadolibre.bootcamp_g1_final_project.entities.users.Representative;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
 @Entity
-public class Order {
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class InboundOrder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne
+    @JoinColumn(name = "warehouse_id")
     private Warehouse warehouse;
 
-    @OneToMany
+    @OneToMany(cascade= CascadeType.ALL)
     private List<Batch> batch;
+
+    @ManyToOne
+    private Representative representative;
 
     @CreationTimestamp
     private LocalDateTime orderDate;
