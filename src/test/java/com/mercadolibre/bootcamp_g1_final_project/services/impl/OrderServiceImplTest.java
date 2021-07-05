@@ -4,9 +4,12 @@ import com.mercadolibre.bootcamp_g1_final_project.controller.request.BatchReques
 import com.mercadolibre.bootcamp_g1_final_project.controller.request.InboundOrderRequest;
 import com.mercadolibre.bootcamp_g1_final_project.controller.response.BatchResponse;
 import com.mercadolibre.bootcamp_g1_final_project.entities.*;
+import com.mercadolibre.bootcamp_g1_final_project.exceptions.ProductNotExistException;
 import com.mercadolibre.bootcamp_g1_final_project.exceptions.SectionInWarehouseNotFoundException;
 import com.mercadolibre.bootcamp_g1_final_project.exceptions.SectionNotExistException;
+import com.mercadolibre.bootcamp_g1_final_project.exceptions.WarehouseNotExistException;
 import com.mercadolibre.bootcamp_g1_final_project.repositories.OrderRepository;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -40,33 +43,34 @@ class OrderServiceImplTest {
     private OrderServiceImpl orderServiceTest;
 
 
+    private final BatchRequest batchRequestTest = BatchRequest.builder()
+            .productId(1)
+            .currentTemperature(3.4F)
+            .minimumTemperature(3.4F)
+            .quantity(20)
+            .dueDate(LocalDateTime.now())
+            .build();
+
+    private final Section sectionTest = Section.builder().id(1).name("SectionA").build();
+
+    private final Warehouse warehouse = Warehouse.builder()
+            .id(1)
+            .name("warehouseSP")
+            .location("SP")
+            .section(List.of(sectionTest))
+            .build();
+
+    private final InboundOrderRequest inboundOrderRequestTest = InboundOrderRequest
+            .builder()
+            .warehouseId(1)
+            .sectionId(1)
+            .batches(List.of(batchRequestTest))
+            .build();
+
+    //SUCCESSFUL TEST
     @Test
     void inboundOrderTest() {
         //arrange
-        BatchRequest batchRequestTest = BatchRequest.builder()
-                .productId(1)
-                .currentTemperature(3.4F)
-                .minimumTemperature(3.4F)
-                .quantity(20)
-                .dueDate(LocalDateTime.now())
-                .build();
-
-        final InboundOrderRequest inboundOrderRequestTest = InboundOrderRequest
-                .builder()
-                .warehouseId(1)
-                .sectionId(1)
-                .batches(List.of(batchRequestTest))
-                .build();
-
-        Section sectionTest = Section.builder().id(1).name("SectionA").build();
-
-        Warehouse warehouse = Warehouse.builder()
-                .id(1)
-                .name("warehouseSP")
-                .location("SP")
-                .section(List.of(sectionTest))
-                .build();
-
         Product productTest = Product.builder().id(1).name("tomate").build();
 
         Batch batchTest = Batch.builder()
@@ -108,35 +112,13 @@ class OrderServiceImplTest {
 
     }
 
-
     // FAILED TEST
     @Test
-    void shouldNotExistection(){
+    void shouldNotExistSection(){
         //arrange
         String messageExpected = "Section does not exist.";
 
-        BatchRequest batchRequestTest = BatchRequest.builder()
-                .productId(1)
-                .currentTemperature(3.4F)
-                .minimumTemperature(3.4F)
-                .quantity(20)
-                .dueDate(LocalDateTime.now())
-                .build();
-
-        final InboundOrderRequest inboundOrderRequestTest = InboundOrderRequest.builder()
-                .warehouseId(1)
-                .sectionId(2)
-                .batches(List.of(batchRequestTest))
-                .build();
-
-        Section sectionTest = Section.builder().id(1).name("SectionA").build();
-
-        Warehouse warehouse = Warehouse.builder()
-                .id(1)
-                .name("warehouseSP")
-                .location("SP")
-                .section(List.of(sectionTest))
-                .build();
+        inboundOrderRequestTest.setSectionId(2);
 
         //act
         Mockito.when(warehouseServiceTest.findById(1)).thenReturn(warehouse);
@@ -148,53 +130,60 @@ class OrderServiceImplTest {
 
     }
 
-    //PROBLEMA
-//    @Test
-//    void shouldNotVerifySectionInWareHouse(){
-//        //arrange
-//        String messageExpected = "Section exists but was not found in the warehouse.";
-//
-//        BatchRequest batchRequestTest = BatchRequest.builder()
-//                .productId(1)
-//                .currentTemperature(3.4F)
-//                .minimumTemperature(3.4F)
-//                .quantity(20)
-//                .dueDate(LocalDateTime.now())
-//                .build();
-//
-//        final InboundOrderRequest inboundOrderRequestTest = InboundOrderRequest.builder()
-//                .warehouseId(1)
-//                .sectionId(1)
-//                .batches(List.of(batchRequestTest))
-//                .build();
-//
-//        Section sectionTest = Section.builder().id(1).name("SectionA").build();
-//        Section sectionTest2 = Section.builder().id(2).name("SectionB").build();
-//
-//        Warehouse warehouse = Warehouse.builder()
-//                .id(1)
-//                .name("warehouseSP")
-//                .location("SP")
-//                .section(List.of(sectionTest))
-//                .build();
-//
-//        //act
-//        Mockito.when(warehouseServiceTest.findById(1)).thenReturn(warehouse);
-//        Mockito.when(sectionServiceTest.findById(2)).thenReturn(sectionTest2);
-//        Exception exception = assertThrows(SectionInWarehouseNotFoundException.class, () -> {orderServiceTest.inboundOrder(inboundOrderRequestTest);});
-//
-//        //assert
-//        assertEquals(messageExpected, exception.getMessage());
-//
-//    }
+    @Test
+    void shouldNotExistWarehouse(){
+        //arrange
+        String messageExpected = "Warehouse does not exist.";
+
+        //act
+        Mockito.when(warehouseServiceTest.findById(1)).thenThrow(new WarehouseNotExistException());
+        Exception exception = assertThrows(WarehouseNotExistException.class, () -> {orderServiceTest.inboundOrder(inboundOrderRequestTest);});
+
+        //assert
+        assertEquals(messageExpected, exception.getMessage());
+    }
 
     @Test
-    void shouldNotFoundProduct(){
+    void shouldNotVerifySectionInWareHouse(){
+        //arrange
+        String messageExpected = "Section exists but was not found in the warehouse.";
+
+        inboundOrderRequestTest.setSectionId(2);
+        Section sectionTest2 = Section.builder().id(2).name("SectionB").build();
+
+        //act
+        Mockito.when(warehouseServiceTest.findById(1)).thenReturn(warehouse);
+        Mockito.when(sectionServiceTest.findById(2)).thenReturn(sectionTest2);
+        Exception exception = assertThrows(SectionInWarehouseNotFoundException.class, () -> {orderServiceTest.inboundOrder(inboundOrderRequestTest);});
+
+        //assert
+        assertEquals(messageExpected, exception.getMessage());
 
     }
 
     @Test
+    void shouldNotFoundProduct(){
+        //arrange
+        String messageExpected = "Product does not exist.";
+
+        //act
+        Mockito.when(warehouseServiceTest.findById(1)).thenReturn(warehouse);
+        Mockito.when(sectionServiceTest.findById(1)).thenReturn(sectionTest);
+        Mockito.when(productServiceTest.findById(1)).thenThrow(new ProductNotExistException());
+        Exception exception = assertThrows(ProductNotExistException.class, () -> {orderServiceTest.inboundOrder(inboundOrderRequestTest);});
+
+        //assert
+        assertEquals(messageExpected, exception.getMessage());
+    }
+
+    //PRECISA DESSES?
+    @Test
     void shouldNotConvertBatchRequestToBatch(){
+
+    }
+
+    @Test
+    void shouldNotConvertBatchToBatchResponse(){
 
     }
 }
