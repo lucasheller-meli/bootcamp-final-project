@@ -8,7 +8,7 @@ import javax.persistence.*;
 public abstract class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Long id;
+    protected Integer id;
 
     @Column(unique = true)
     protected String email;
@@ -22,7 +22,7 @@ public abstract class User implements UserDetails {
     public User() {
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 

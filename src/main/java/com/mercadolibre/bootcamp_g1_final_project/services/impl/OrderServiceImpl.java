@@ -24,15 +24,11 @@ import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
-
-
     private final OrderRepository orderRepository;
     private final InboundOrderRepository inboundOrderRepository;
     private final WarehouseService warehouseService;
     private final SectionService sectionService;
     private final ProductService productService;
-
-
 
     public OrderServiceImpl(OrderRepository orderRepository, WarehouseService warehouseService, SectionService sectionService, ProductService productService, InboundOrderRepository inboundOrderRepository) {
         this.orderRepository = orderRepository;
@@ -42,9 +38,7 @@ public class OrderServiceImpl implements OrderService {
         this.productService = productService;
     }
 
-
     public List<BatchResponse> inboundOrder(InboundOrderRequest inboundOrderRequest) throws SectionInWarehouseNotFoundException {
-
         Warehouse warehouse = warehouseService.findById(inboundOrderRequest.getWarehouseId());
         List<Section> sections = warehouse.getSection();
 
@@ -62,15 +56,15 @@ public class OrderServiceImpl implements OrderService {
 
     public List<BatchResponse> updateInboundOrder(Integer id, InboundOrderUpdateRequest inboundOrderUpdateRequest) {
         InboundOrder order = inboundOrderRepository.findById(id).orElseThrow(() -> new InboundOrderNotFound(id));
-        refreshOrAddBatches(order,convertBatchRequestToBatch(inboundOrderUpdateRequest.getBatches()));
+        refreshOrAddBatches(order, convertBatchRequestToBatch(inboundOrderUpdateRequest.getBatches()));
         inboundOrderRepository.save(order);
         return convertBatchToBatchResponse(order.getBatch());
     }
 
     private void refreshOrAddBatches(InboundOrder order, List<Batch> updatedBatches) {
         HashMap<Integer, Batch> batches = new HashMap<>();
-        order.getBatch().forEach(b -> batches.put(b.getId(),b));
-        updatedBatches.forEach(b-> batches.put(b.getId(),b));
+        order.getBatch().forEach(b -> batches.put(b.getId(), b));
+        updatedBatches.forEach(b-> batches.put(b.getId(), b));
         order.setBatch(new ArrayList<>(batches.values()));
     }
 
