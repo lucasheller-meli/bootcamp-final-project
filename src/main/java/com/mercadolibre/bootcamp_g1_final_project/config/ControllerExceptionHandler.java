@@ -1,7 +1,6 @@
 package com.mercadolibre.bootcamp_g1_final_project.config;
 
-import com.mercadolibre.bootcamp_g1_final_project.exceptions.ApiError;
-import com.mercadolibre.bootcamp_g1_final_project.exceptions.ApiException;
+import com.mercadolibre.bootcamp_g1_final_project.exceptions.*;
 import com.newrelic.api.agent.NewRelic;
 import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
@@ -10,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 @ControllerAdvice
@@ -47,5 +48,33 @@ public class ControllerExceptionHandler {
 		ApiError apiError = new ApiError("internal_error", "Internal server error", HttpStatus.INTERNAL_SERVER_ERROR.value());
 		return ResponseEntity.status(apiError.getStatus())
 				.body(apiError);
+	}
+
+	@ResponseBody
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	@ExceptionHandler(value = SectionInWarehouseNotFoundException.class)
+	public String NotFoundSectionInWarehouseException(SectionInWarehouseNotFoundException notFoundSectionInWarehouse) {
+		return notFoundSectionInWarehouse.getMessage();
+	}
+
+	@ResponseBody
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	@ExceptionHandler(value = SectionNotExistException.class)
+	public String NotExistSectionException(SectionNotExistException notFoundSectionException) {
+		return notFoundSectionException.getMessage();
+	}
+
+	@ResponseBody
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	@ExceptionHandler(value = ProductNotExistException.class)
+	public String NotExistProductException(ProductNotExistException productNotExistException) {
+		return productNotExistException.getMessage();
+	}
+
+	@ResponseBody
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	@ExceptionHandler(value = WarehouseNotExistException.class)
+	public String NotExistWarehouseException(WarehouseNotExistException warehouseNotExistException) {
+		return warehouseNotExistException.getMessage();
 	}
 }
