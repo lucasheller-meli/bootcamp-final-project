@@ -80,7 +80,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     (request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage())
                 )
                 .and().cors().and().csrf().disable()
-
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilterBefore(authWithToken, UsernamePasswordAuthenticationFilter.class);
