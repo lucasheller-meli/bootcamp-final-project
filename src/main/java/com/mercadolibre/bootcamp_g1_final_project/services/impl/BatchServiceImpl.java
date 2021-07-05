@@ -2,12 +2,13 @@ package com.mercadolibre.bootcamp_g1_final_project.services.impl;
 
 import com.mercadolibre.bootcamp_g1_final_project.entities.Batch;
 import com.mercadolibre.bootcamp_g1_final_project.repositories.BatchRepository;
+import com.mercadolibre.bootcamp_g1_final_project.services.BatchService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class BatchServiceImpl {
+public class BatchServiceImpl implements BatchService {
     private final BatchRepository batchRepository;
 
     public BatchServiceImpl(BatchRepository batchRepository) {
