@@ -1,6 +1,6 @@
 package com.mercadolibre.bootcamp_g1_final_project.services.impl;
 
-import com.mercadolibre.bootcamp_g1_final_project.controller.response.ProductsResponse;
+import com.mercadolibre.bootcamp_g1_final_project.controller.response.ProductListResponse;
 import com.mercadolibre.bootcamp_g1_final_project.entities.Product;
 import com.mercadolibre.bootcamp_g1_final_project.entities.ProductType;
 import com.mercadolibre.bootcamp_g1_final_project.entities.users.Seller;
@@ -32,9 +32,9 @@ class ProductServiceImplTest {
     private final Product product3 = new Product(3, "Tomate", seller1, ProductType.FS,3.0);
     private final List<Product> productslist = List.of(product1, product2, product3);
 
-    private final ProductsResponse pr1 = new ProductsResponse(1, "Lasanha congelada");
-    private final ProductsResponse pr2 = new ProductsResponse(2, "Danone");
-    private final ProductsResponse pr3 = new ProductsResponse(3, "Tomate");
+    private final ProductListResponse pr1 = new ProductListResponse(1, "Lasanha congelada");
+    private final ProductListResponse pr2 = new ProductListResponse(2, "Danone");
+    private final ProductListResponse pr3 = new ProductListResponse(3, "Tomate");
 
 
     @Test
@@ -42,15 +42,15 @@ class ProductServiceImplTest {
         //arrange
         String category = null;
 
-        List<ProductsResponse> productsResponsesExpected = List.of(pr1, pr2, pr3);
+        List<ProductListResponse> productListResponsesExpected = List.of(pr1, pr2, pr3);
 
         //act
         Mockito.when(productRepositoryTest.findAll()).thenReturn(productslist);
-        List<ProductsResponse> productsResponseList = productServiceTest.listProducts(category);
+        List<ProductListResponse> productListResponseList = productServiceTest.listProducts(category);
 
         //assert
-        assertEquals(productsResponsesExpected.size(), productsResponseList.size());
-        assertEquals(productsResponsesExpected.get(0), productsResponseList.get(0));
+        assertEquals(productListResponsesExpected.size(), productListResponseList.size());
+        assertEquals(productListResponsesExpected.get(0), productListResponseList.get(0));
     }
 
     @Test
@@ -58,15 +58,15 @@ class ProductServiceImplTest {
         //arrange
         String category = "FS";
 
-        List<ProductsResponse> productsResponsesExpected = List.of(pr3);
+        List<ProductListResponse> productListResponsesExpected = List.of(pr3);
 
         //act
         Mockito.when(productRepositoryTest.findAll()).thenReturn(productslist);
-        List<ProductsResponse> productsResponseList = productServiceTest.listProducts(category);
+        List<ProductListResponse> productListResponseList = productServiceTest.listProducts(category);
 
         //assert
-        assertEquals(productsResponsesExpected.size(), productsResponseList.size());
-        assertEquals(productsResponsesExpected.get(0), productsResponseList.get(0));
+        assertEquals(productListResponsesExpected.size(), productListResponseList.size());
+        assertEquals(productListResponsesExpected.get(0), productListResponseList.get(0));
     }
 
     @Test
@@ -74,15 +74,15 @@ class ProductServiceImplTest {
         //arrange
         String category = "FF";
 
-        List<ProductsResponse> productsResponsesExpected = List.of(pr1);
+        List<ProductListResponse> productListResponsesExpected = List.of(pr1);
 
         //act
         Mockito.when(productRepositoryTest.findAll()).thenReturn(productslist);
-        List<ProductsResponse> productsResponseList = productServiceTest.listProducts(category);
+        List<ProductListResponse> productListResponseList = productServiceTest.listProducts(category);
 
         //assert
-        assertEquals(productsResponsesExpected.size(), productsResponseList.size());
-        assertEquals(productsResponsesExpected.get(0), productsResponseList.get(0));
+        assertEquals(productListResponsesExpected.size(), productListResponseList.size());
+        assertEquals(productListResponsesExpected.get(0), productListResponseList.get(0));
     }
 
     @Test
@@ -90,15 +90,15 @@ class ProductServiceImplTest {
         //arrange
         String category = "RF";
 
-        List<ProductsResponse> productsResponsesExpected = List.of(pr2);
+        List<ProductListResponse> productListResponsesExpected = List.of(pr2);
 
         //act
         Mockito.when(productRepositoryTest.findAll()).thenReturn(productslist);
-        List<ProductsResponse> productsResponseList = productServiceTest.listProducts(category);
+        List<ProductListResponse> productListResponseList = productServiceTest.listProducts(category);
 
         //assert
-        assertEquals(productsResponsesExpected.size(), productsResponseList.size());
-        assertEquals(productsResponsesExpected.get(0), productsResponseList.get(0));
+        assertEquals(productListResponsesExpected.size(), productListResponseList.size());
+        assertEquals(productListResponsesExpected.get(0), productListResponseList.get(0));
     }
 
     @Test

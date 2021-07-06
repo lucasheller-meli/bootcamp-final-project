@@ -36,9 +36,9 @@ public class Warehouse {
 
     private String name;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    //tirei o cascade
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "warehouse_id")
-
     private List<Section> section;
 
     @OneToMany
