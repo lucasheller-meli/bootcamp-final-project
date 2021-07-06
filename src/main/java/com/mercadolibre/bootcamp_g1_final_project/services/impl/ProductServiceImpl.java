@@ -4,6 +4,7 @@ import com.mercadolibre.bootcamp_g1_final_project.controller.response.BatchListR
 import com.mercadolibre.bootcamp_g1_final_project.controller.response.ProductListResponse;
 import com.mercadolibre.bootcamp_g1_final_project.entities.*;
 import com.mercadolibre.bootcamp_g1_final_project.entities.users.Representative;
+import com.mercadolibre.bootcamp_g1_final_project.exceptions.NotFoundProductInBatch;
 import com.mercadolibre.bootcamp_g1_final_project.exceptions.ProductNotExistException;
 import com.mercadolibre.bootcamp_g1_final_project.repositories.ProductRepository;
 import com.mercadolibre.bootcamp_g1_final_project.services.BatchService;
@@ -61,8 +62,10 @@ public class ProductServiceImpl implements ProductService {
         return productListResponse;
     }
 
-    public List<BatchListResponse> listProductsInBatch(Integer productId, String order){
+    public List<BatchListResponse> listProductsInBatch(Integer productId, String order) throws NotFoundProductInBatch {
         List<Batch> batchList = batchService.findBatchesByProductId(productId);
+
+        if(batchList.isEmpty()) throw new NotFoundProductInBatch();
 
         List<BatchListResponse> batchResponseList = convertBatchToBatchResponse(batchList);
 
