@@ -14,6 +14,8 @@ import com.mercadolibre.bootcamp_g1_final_project.services.ProductService;
 import com.mercadolibre.bootcamp_g1_final_project.services.SectionService;
 import com.mercadolibre.bootcamp_g1_final_project.services.WarehouseService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -52,7 +54,7 @@ public class OrderServiceImpl implements OrderService {
         return convertBatchToBatchResponse(inboundOrderSave.getBatch());
     }
 
-
+    @Transactional(propagation= Propagation.REQUIRED)
     public List<BatchResponse> updateInboundOrder(Integer id, InboundOrderUpdateRequest inboundOrderUpdateRequest) {
         InboundOrder order = inboundOrderRepository.findById(id).orElseThrow(() -> new RuntimeException("lascou"));
         refreshOrAddBatches(order, convertBatchRequestToBatch(inboundOrderUpdateRequest.getBatches()));

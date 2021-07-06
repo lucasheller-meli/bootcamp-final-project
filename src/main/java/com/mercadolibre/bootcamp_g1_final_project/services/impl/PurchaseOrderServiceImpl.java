@@ -19,6 +19,8 @@ import com.mercadolibre.bootcamp_g1_final_project.services.PurchaseOrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,6 +61,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
   }
 
   @Override
+  @Transactional(propagation= Propagation.REQUIRED)
   public PurchaseOrderResponse updateOrder(Integer id, PurchaseOrderUpdateRequest request) {
     PurchaseOrder purchasedOrder = purchaseOrderRepository.findById(id).orElseThrow(() -> new CartNotFoundException(id));
     refreshOrAddProducts(purchasedOrder,mappedUpdatedProducts(request.getProducts()));
@@ -78,7 +81,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
   }
 
 
-  void refreshOrAddProducts(PurchaseOrder purchasedOrder, List<PurchaseProduct> updatedProducts) {
+  private void refreshOrAddProducts(PurchaseOrder purchasedOrder, List<PurchaseProduct> updatedProducts) {
     HashMap<Integer, PurchaseProduct> products = new HashMap<>();
     purchasedOrder.getProducts().forEach(p -> products.put(p.getId(), p));
     updatedProducts.forEach(p-> products.put(p.getId(), p));
