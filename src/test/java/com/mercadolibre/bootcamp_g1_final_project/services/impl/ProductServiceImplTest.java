@@ -27,9 +27,9 @@ class ProductServiceImplTest {
 
     private final Seller seller1 = new Seller("joao@gmail.com", "1234");
 
-    private final Product product1 = new Product(1, "Lasanha congelada", seller1, ProductType.FF);
-    private final Product product2 = new Product(2, "Danone", seller1, ProductType.RF);
-    private final Product product3 = new Product(3, "Tomate", seller1, ProductType.FS);
+    private final Product product1 = new Product(1, "Lasanha congelada", seller1, ProductType.FF,10.0);
+    private final Product product2 = new Product(2, "Danone", seller1, ProductType.RF,5.0);
+    private final Product product3 = new Product(3, "Tomate", seller1, ProductType.FS,3.0);
     private final List<Product> productslist = List.of(product1, product2, product3);
 
     private final ProductsResponse pr1 = new ProductsResponse(1, "Lasanha congelada");

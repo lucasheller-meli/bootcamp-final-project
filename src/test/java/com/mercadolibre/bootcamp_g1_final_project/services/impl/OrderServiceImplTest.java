@@ -77,6 +77,7 @@ class OrderServiceImplTest {
                 .id(1)
                 .currentTemperature(3.4F)
                 .minimumTemperature(3.4F)
+                .product(productTest)
                 .initialQuantity(20)
                 .currentQuantity(20)
                 .build();

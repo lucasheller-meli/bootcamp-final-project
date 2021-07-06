@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
         return new LoginResponse(((UserDetails) authentication.getPrincipal()).getUsername(), tokenService.generateToken(authentication));
     }
 
-    public User findById(Integer id){
+    public User findById(Integer id) {
         return userRepository.findById(id).orElseThrow();
     }
 
