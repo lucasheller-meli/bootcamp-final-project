@@ -11,6 +11,6 @@ public interface ProductService {
 
     List<ProductListResponse> listProducts(String category);
 
-    public List<BatchListResponse> listProductsInBatch(Integer productId);
+    public List<BatchListResponse> listProductsInBatch(Integer productId, String order);
 
 }

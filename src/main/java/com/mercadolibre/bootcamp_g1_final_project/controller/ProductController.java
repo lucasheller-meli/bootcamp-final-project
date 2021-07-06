@@ -14,11 +14,8 @@ public class ProductController {
 
     private final ProductService productService;
 
-    private final BatchService batchService;
-
-    public ProductController(ProductService productService, BatchService batchService) {
+    public ProductController(ProductService productService) {
         this.productService = productService;
-        this.batchService = batchService;
     }
 
     @GetMapping("/list")
@@ -26,9 +23,9 @@ public class ProductController {
         return productService.listProducts(category);
     }
 
-    @GetMapping("/list-batch/{productId}")
-    public List<BatchListResponse> listBatch(@PathVariable Integer productId){
-        return productService.listProductsInBatch(productId);
+    @GetMapping("/list-batch/{productId}/order")
+    public List<BatchListResponse> listBatch(@PathVariable Integer productId, @RequestParam(required = false) String order){
+        return productService.listProductsInBatch(productId, order);
     }
 
 }

@@ -2,13 +2,14 @@ package com.mercadolibre.bootcamp_g1_final_project.services.impl;
 
 import com.mercadolibre.bootcamp_g1_final_project.controller.response.BatchListResponse;
 import com.mercadolibre.bootcamp_g1_final_project.controller.response.ProductListResponse;
-import com.mercadolibre.bootcamp_g1_final_project.entities.Batch;
-import com.mercadolibre.bootcamp_g1_final_project.entities.Product;
-import com.mercadolibre.bootcamp_g1_final_project.entities.ProductType;
+import com.mercadolibre.bootcamp_g1_final_project.entities.*;
+import com.mercadolibre.bootcamp_g1_final_project.entities.users.Representative;
 import com.mercadolibre.bootcamp_g1_final_project.exceptions.ProductNotExistException;
 import com.mercadolibre.bootcamp_g1_final_project.repositories.ProductRepository;
 import com.mercadolibre.bootcamp_g1_final_project.services.BatchService;
 import com.mercadolibre.bootcamp_g1_final_project.services.ProductService;
+import com.mercadolibre.bootcamp_g1_final_project.services.WarehouseService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,10 +20,12 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final BatchService batchService;
+    private final WarehouseService warehouseService;
 
-    public ProductServiceImpl(ProductRepository productRepository, BatchService batchService) {
+    public ProductServiceImpl(ProductRepository productRepository, BatchService batchService, WarehouseService warehouseService) {
         this.productRepository = productRepository;
         this.batchService = batchService;
+        this.warehouseService = warehouseService;
     }
 
     @Override
@@ -58,22 +61,34 @@ public class ProductServiceImpl implements ProductService {
         return productListResponse;
     }
 
-    public List<BatchListResponse> listProductsInBatch(Integer productId){
+    public List<BatchListResponse> listProductsInBatch(Integer productId, String order){
         List<Batch> batchList = batchService.findBatchesByProductId(productId);
 
         List<BatchListResponse> batchResponseList = convertBatchToBatchResponse(batchList);
-        //ordenar lista
 
+        if(order!= null) {
+            if(order.equals("C")) {
+                batchResponseList.sort(BatchListResponse.quantityCompare);
+            } else if(order.equals("F")) {
+                batchResponseList.sort(BatchListResponse.duedateCompare);
+            }
+        }
         return batchResponseList;
     }
 
     private List<BatchListResponse> convertBatchToBatchResponse(List<Batch> batchList){
         List<BatchListResponse> batchResponseList = new ArrayList<>();
 
+        Representative representative = (Representative) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Warehouse warehouse = warehouseService.findByRepresentative(representative);
+
         for (Batch b: batchList) {
             Product product = b.getProduct();
+            Section section = b.getSector();
             BatchListResponse batchListResponse = BatchListResponse.builder()
-                    .id(b.getId())
+                    .sectionId(section.getId())
+                    .warehouseId(warehouse.getId())
+                    .batchNumber(b.getId())
                     .product(new ProductListResponse(product.getId(), product.getName()))
                     .currentQuantity(b.getCurrentQuantity())
                     .dueDate(b.getDueDate())
@@ -82,7 +97,5 @@ public class ProductServiceImpl implements ProductService {
         }
         return batchResponseList;
     }
-
-
 
 }
