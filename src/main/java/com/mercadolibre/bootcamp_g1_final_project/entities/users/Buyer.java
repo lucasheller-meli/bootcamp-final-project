@@ -6,15 +6,18 @@ import java.util.List;
 
 @Entity
 public class Buyer extends User {
-    public Buyer(String email, String password) {
+  public Buyer(Integer id, String email, String password) {
+    super(id, email, password);
+  }
+
+  public Buyer(String email, String password) {
         super(email, password);
     }
 
-    public Buyer() {
-    }
+  public Buyer() { }
 
-    @Override
-    public Collection<UserRole> getAuthorities() {
+  @Override
+  public Collection<UserRole> getAuthorities() {
         return List.of(UserRole.BUYER);
     }
 }

@@ -43,8 +43,8 @@ public class PopulateDatabase implements CommandLineRunner {
         Section freshSection = sectionRepository.save(new Section(null, "fresh", ProductType.FS));
         Section refrigeratedSection = sectionRepository.save(new Section(null, "refrigerated", ProductType.RF));
 
-        warehouseRepository.save(new Warehouse(null, "algum lugar", "nome 1", List.of(frozenSection, freshSection, refrigeratedSection), List.of(representative)));
-        warehouseRepository.save(new Warehouse(null, "outro lugar", "nome 2", List.of(frozenSection, freshSection, refrigeratedSection), List.of()));
+        warehouseRepository.save(new Warehouse(null, "algum lugar", "nome 1", List.of(frozenSection, freshSection, refrigeratedSection), List.of(representative), List.of()));
+        warehouseRepository.save(new Warehouse(null, "outro lugar", "nome 2", List.of(frozenSection, freshSection, refrigeratedSection), List.of(), List.of()));
 
         productRepository.save(new Product(null, "lasanha congelada", seller, ProductType.FF, 22.22));
         productRepository.save(new Product(null, "laranja", seller, ProductType.FS, 15.6));

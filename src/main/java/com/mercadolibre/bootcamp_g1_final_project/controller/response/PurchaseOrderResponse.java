@@ -16,6 +16,6 @@ public class PurchaseOrderResponse {
   private Integer id;
   private LocalDate date;
   private Integer buyerId;
-  private List<PurchaseProductResponse> products;
+  private List<PurchaseOrderItemResponse> products;
   private Double totalPrice;
 }

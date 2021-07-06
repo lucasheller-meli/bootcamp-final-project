@@ -16,5 +16,5 @@ import java.util.List;
 public class PurchaseOrderRequest {
   @NotEmpty
   @Valid
-  private List<PurchaseProductRequest> products;
+  private List<PurchaseOrderItemRequest> products;
 }
