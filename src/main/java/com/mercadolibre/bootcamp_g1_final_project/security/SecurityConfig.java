@@ -71,6 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/v2/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                 .antMatchers("/ping").permitAll()
                 .antMatchers("/api/v1/auth/login").permitAll()
+                .antMatchers("/api/v1/fresh-products/list").permitAll()
                 .antMatchers("/api/v1/fresh-products/inboundorder/**").hasAuthority(UserRole.Name.REPRESENTATIVE)
                 .antMatchers("/api/v1/fresh-products/order/**").hasAuthority(UserRole.Name.BUYER)
                 .anyRequest().authenticated()

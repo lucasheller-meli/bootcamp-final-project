@@ -7,6 +7,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+
 import java.util.List;
 
 @Data
@@ -24,9 +36,17 @@ public class Warehouse {
 
     private String name;
 
+
     @ManyToMany(fetch = FetchType.EAGER)
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "warehouse_id")
+
     private List<Section> section;
 
     @OneToMany
     private List<Representative> representatives;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<InboundOrder> orders;
 }

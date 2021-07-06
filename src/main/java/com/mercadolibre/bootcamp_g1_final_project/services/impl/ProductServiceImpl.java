@@ -21,33 +21,36 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product findById(Integer id) throws ProductNotExistException{
+    public Product findById(Integer id) throws ProductNotExistException {
         return productRepository.findById(id).orElseThrow(ProductNotExistException::new);
     }
 
     public List<ProductsResponse> listProducts(String category) throws ProductNotExistException {
-        List<Product> products = (List<Product>) productRepository.findAll();
+        final List<Product> products = (List<Product>) productRepository.findAll();
 
-        if(products.isEmpty()) throw new ProductNotExistException();
+        if (products.isEmpty()) throw new ProductNotExistException();
 
-        List<ProductsResponse> productsResponse = new ArrayList<>();
+        return getProductsResponses(category, products);
 
-        for (Product p : products){
+    }
+
+    private List<ProductsResponse> getProductsResponses(String category, List<Product> products) {
+        final List<ProductsResponse> productsResponse = new ArrayList<>();
+
+        for (Product p : products) {
             ProductType type = p.getType();
 
-            if(category != null){
-                if (type.toString().compareTo(category) == 0){
-                    ProductsResponse pr = new ProductsResponse(p.getId(),p.getName());
+            if (category != null) {
+                if (type.toString().compareTo(category) == 0) {
+                    ProductsResponse pr = new ProductsResponse(p.getId(), p.getName());
                     productsResponse.add(pr);
                 }
             } else {
-                ProductsResponse pr = new ProductsResponse(p.getId(),p.getName());
+                ProductsResponse pr = new ProductsResponse(p.getId(), p.getName());
                 productsResponse.add(pr);
             }
         }
-
         return productsResponse;
-
     }
 
 }
