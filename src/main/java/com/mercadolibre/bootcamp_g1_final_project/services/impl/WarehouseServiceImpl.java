@@ -1,5 +1,7 @@
 package com.mercadolibre.bootcamp_g1_final_project.services.impl;
 
+import com.mercadolibre.bootcamp_g1_final_project.controller.response.StockWarehouse;
+import com.mercadolibre.bootcamp_g1_final_project.controller.response.WarehouseProductResponse;
 import com.mercadolibre.bootcamp_g1_final_project.entities.InboundOrder;
 import com.mercadolibre.bootcamp_g1_final_project.entities.Warehouse;
 import com.mercadolibre.bootcamp_g1_final_project.exceptions.WarehouseNotExistException;
@@ -27,6 +29,12 @@ public class WarehouseServiceImpl implements WarehouseService {
         orders.add(inboundOrder);
         warehouse.setOrders(orders);
         warehouseRepository.save(warehouse);
+    }
+
+    @Override
+    public StockWarehouse findWarehouseWithProduct(Integer productId) {
+        List<WarehouseProductResponse> warehouseProductResponses = warehouseRepository.findWarehouseByProductId(productId);
+        return new StockWarehouse(productId, warehouseProductResponses);
     }
 
 
