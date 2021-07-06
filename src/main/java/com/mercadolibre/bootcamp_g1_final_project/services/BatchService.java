@@ -8,4 +8,5 @@ import java.util.List;
 public interface BatchService {
     List<Batch> findBatchesByProductId(Integer productId);
 
+    Batch save(Batch batch);
 }
