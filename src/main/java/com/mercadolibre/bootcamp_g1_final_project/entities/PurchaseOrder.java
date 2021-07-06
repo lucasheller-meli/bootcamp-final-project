@@ -24,7 +24,7 @@ public class PurchaseOrder {
   @ManyToOne
   private Buyer buyer;
 
-  @OneToMany(cascade = CascadeType.ALL)
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   private List<PurchaseProduct> products;
 
   @CreationTimestamp

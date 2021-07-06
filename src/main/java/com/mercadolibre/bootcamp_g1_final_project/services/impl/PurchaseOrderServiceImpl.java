@@ -1,7 +1,9 @@
 package com.mercadolibre.bootcamp_g1_final_project.services.impl;
 
 import com.mercadolibre.bootcamp_g1_final_project.controller.request.PurchaseOrderRequest;
+import com.mercadolibre.bootcamp_g1_final_project.controller.request.PurchaseOrderUpdateRequest;
 import com.mercadolibre.bootcamp_g1_final_project.controller.request.PurchaseProductRequest;
+import com.mercadolibre.bootcamp_g1_final_project.controller.request.PurchaseProductUpdateRequest;
 import com.mercadolibre.bootcamp_g1_final_project.controller.response.PurchaseOrderResponse;
 import com.mercadolibre.bootcamp_g1_final_project.controller.response.PurchaseProductResponse;
 import com.mercadolibre.bootcamp_g1_final_project.entities.Batch;
@@ -9,13 +11,17 @@ import com.mercadolibre.bootcamp_g1_final_project.entities.PurchaseOrder;
 import com.mercadolibre.bootcamp_g1_final_project.entities.PurchaseProduct;
 import com.mercadolibre.bootcamp_g1_final_project.entities.users.Buyer;
 import com.mercadolibre.bootcamp_g1_final_project.exceptions.ApiException;
+import com.mercadolibre.bootcamp_g1_final_project.exceptions.CartNotFoundException;
 import com.mercadolibre.bootcamp_g1_final_project.repositories.PurchaseOrderRepository;
+import com.mercadolibre.bootcamp_g1_final_project.repositories.PurchaseProductRepository;
 import com.mercadolibre.bootcamp_g1_final_project.services.ProductService;
 import com.mercadolibre.bootcamp_g1_final_project.services.PurchaseOrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,11 +30,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
   private final PurchaseOrderRepository purchaseOrderRepository;
   private final BatchServiceImpl batchService;
   private final ProductService productService;
+  private final PurchaseProductRepository purchaseProductRepository;
 
-  public PurchaseOrderServiceImpl(PurchaseOrderRepository purchaseOrderRepository, BatchServiceImpl batchService, ProductService productService) {
+  public PurchaseOrderServiceImpl(PurchaseOrderRepository purchaseOrderRepository, BatchServiceImpl batchService, ProductService productService, PurchaseProductRepository purchaseProductRepository) {
     this.purchaseOrderRepository = purchaseOrderRepository;
     this.batchService = batchService;
     this.productService = productService;
+    this.purchaseProductRepository = purchaseProductRepository;
   }
 
   public PurchaseOrderResponse purchaseOrder(PurchaseOrderRequest request) {
@@ -48,6 +56,33 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         .buyerId(buyer.getId())
         .products(responseProducts(purchaseProducts))
         .build();
+  }
+
+  @Override
+  public PurchaseOrderResponse updateOrder(Integer id, PurchaseOrderUpdateRequest request) {
+    PurchaseOrder purchasedOrder = purchaseOrderRepository.findById(id).orElseThrow(() -> new CartNotFoundException(id));
+    refreshOrAddProducts(purchasedOrder,mappedUpdatedProducts(request.getProducts()));
+    purchaseOrderRepository.save(purchasedOrder);
+    return PurchaseOrderResponse.builder().id(purchasedOrder.getId()).products(responseProducts(purchasedOrder.getProducts())).buyerId(purchasedOrder.getId()).date(purchasedOrder.getOrderDate()).build();
+  }
+
+  @Override
+  public PurchaseOrderResponse findPurchasedOrder(Integer id) {
+    PurchaseOrder purchasedOrder = purchaseOrderRepository.findById(id).orElseThrow(() -> new CartNotFoundException(id));
+    return PurchaseOrderResponse.builder()
+            .id(purchasedOrder.getId())
+            .date(purchasedOrder.getOrderDate())
+            .buyerId(purchasedOrder.getBuyer().getId())
+            .products(responseProducts(purchasedOrder.getProducts()))
+            .build();
+  }
+
+
+  void refreshOrAddProducts(PurchaseOrder purchasedOrder, List<PurchaseProduct> updatedProducts) {
+    HashMap<Integer, PurchaseProduct> products = new HashMap<>();
+    purchasedOrder.getProducts().forEach(p -> products.put(p.getId(), p));
+    updatedProducts.forEach(p-> products.put(p.getId(), p));
+    purchasedOrder.setProducts(new ArrayList<>(products.values()));
   }
 
   private void checkIfProductsHaveEnoughStock(List<PurchaseProductRequest> products) {
@@ -95,6 +130,15 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             .quantity(product.getQuantity())
             .build())
         .collect(Collectors.toList());
+  }
+
+  private List<PurchaseProduct> mappedUpdatedProducts(List<PurchaseProductUpdateRequest> products) {
+    return products.stream()
+            .map(product -> {
+              PurchaseProduct purchaseProduct = purchaseProductRepository.findById(product.getProductId()).orElse(PurchaseProduct.builder().product(productService.findById(product.getProductId())).build());
+              purchaseProduct.setQuantity(product.getQuantity());
+              return purchaseProduct;
+            }).collect(Collectors.toList());
   }
 
   private List<PurchaseProductResponse> responseProducts(List<PurchaseProduct> products) {
