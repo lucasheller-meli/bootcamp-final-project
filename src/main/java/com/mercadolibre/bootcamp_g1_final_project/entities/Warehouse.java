@@ -40,4 +40,7 @@ public class Warehouse {
 
     @OneToMany
     private List<Representative> representatives;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<InboundOrder> orders;
 }

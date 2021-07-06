@@ -19,6 +19,7 @@ import com.mercadolibre.bootcamp_g1_final_project.services.SectionService;
 import com.mercadolibre.bootcamp_g1_final_project.services.WarehouseService;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +40,7 @@ public class OrderServiceImpl implements OrderService {
         this.productService = productService;
     }
 
+    @Transactional
     public List<BatchResponse> inboundOrder(InboundOrderRequest inboundOrderRequest) throws SectionInWarehouseNotFoundException {
         final Warehouse warehouse = warehouseService.findById(inboundOrderRequest.getWarehouseId());
         final List<Section> sections = warehouse.getSection();
@@ -51,6 +53,8 @@ public class OrderServiceImpl implements OrderService {
                 .batch(convertBatchRequestToBatch(inboundOrderRequest.getBatches())).build();
 
         final InboundOrder inboundOrderSave = orderRepository.save(inboundOrder);
+
+        warehouseService.updateOrders(warehouse,inboundOrderSave);
 
         return convertBatchToBatchResponse(inboundOrderSave.getBatch());
     }

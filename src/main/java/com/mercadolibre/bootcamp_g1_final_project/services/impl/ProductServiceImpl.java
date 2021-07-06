@@ -30,6 +30,11 @@ public class ProductServiceImpl implements ProductService {
 
         if (products.isEmpty()) throw new ProductNotExistException();
 
+        return getProductsResponses(category, products);
+
+    }
+
+    private List<ProductsResponse> getProductsResponses(String category, List<Product> products) {
         final List<ProductsResponse> productsResponse = new ArrayList<>();
 
         for (Product p : products) {
@@ -45,9 +50,7 @@ public class ProductServiceImpl implements ProductService {
                 productsResponse.add(pr);
             }
         }
-
         return productsResponse;
-
     }
 
 }
