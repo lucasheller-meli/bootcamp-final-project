@@ -5,11 +5,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PurchaseProductResponse {
-  private Integer productId;
-  private Integer quantity;
+public class StockWarehouse {
+
+    private Integer productId;
+
+    private List<WarehouseProductResponse> warehouseProducts;
+
 }

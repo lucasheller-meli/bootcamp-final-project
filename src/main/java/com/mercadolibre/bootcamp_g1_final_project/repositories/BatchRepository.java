@@ -6,6 +6,6 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface BatchRepository extends CrudRepository<Batch, Integer> {
-  List<Batch> findBatchesByProductId(Integer productId);
+    List<Batch> findBatchesByProductId(Integer productId);
 }
 

@@ -9,15 +9,18 @@ public abstract class User implements UserDetails {
     @Column(unique = true)
     protected String email;
     protected String password;
-    public User(String email, String password) {
-        this.email = email;
-        this.password = password;
-    }
+
     public User(Integer id, String email, String password) {
         this.id = id;
         this.email = email;
         this.password = password;
     }
+
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+    
     public User() {
     }
     public Integer getId() {

@@ -9,7 +9,6 @@ import com.mercadolibre.bootcamp_g1_final_project.exceptions.SectionInWarehouseN
 import com.mercadolibre.bootcamp_g1_final_project.exceptions.SectionNotExistException;
 import com.mercadolibre.bootcamp_g1_final_project.exceptions.WarehouseNotExistException;
 import com.mercadolibre.bootcamp_g1_final_project.repositories.OrderRepository;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -48,7 +48,7 @@ class OrderServiceImplTest {
             .currentTemperature(3.4F)
             .minimumTemperature(3.4F)
             .quantity(20)
-            .dueDate(LocalDateTime.now())
+            .dueDate(LocalDate.now())
             .build();
 
     private final Section sectionTest = Section.builder().id(1).name("SectionA").build();
