@@ -5,6 +5,8 @@ import com.mercadolibre.bootcamp_g1_final_project.controller.response.ProductLis
 import com.mercadolibre.bootcamp_g1_final_project.controller.response.ProductResponse;
 import com.mercadolibre.bootcamp_g1_final_project.entities.*;
 import com.mercadolibre.bootcamp_g1_final_project.entities.users.Representative;
+import com.mercadolibre.bootcamp_g1_final_project.exceptions.CategoryPerDuedateNotFoundException;
+import com.mercadolibre.bootcamp_g1_final_project.exceptions.ListProductPerDuedateNotExistException;
 import com.mercadolibre.bootcamp_g1_final_project.exceptions.NotFoundProductInBatch;
 import com.mercadolibre.bootcamp_g1_final_project.exceptions.ProductNotExistException;
 import com.mercadolibre.bootcamp_g1_final_project.repositories.ProductRepository;
@@ -104,7 +106,7 @@ public class ProductServiceImpl implements ProductService {
         return batchResponseList;
     }
 
-    public List<BatchListResponse> listProductPerDuedata(Integer days, String category){
+    public List<BatchListResponse> listProductPerDuedata(Integer days, String category) throws ListProductPerDuedateNotExistException, CategoryPerDuedateNotFoundException {
 
         Representative representative = (Representative) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Warehouse warehouse = warehouseService.findByRepresentative(representative);
@@ -117,7 +119,9 @@ public class ProductServiceImpl implements ProductService {
 
         batchListResponseList = batchListResponseList.stream().filter(b -> b.getDueDate().isAfter(LocalDateTime.now().minusDays(days))).collect(Collectors.toList());
 
-        //excecao de lista vazia
+        if(batchListResponseList.isEmpty()) throw new ListProductPerDuedateNotExistException();
+
+
 
         if(category!=null){
             List<BatchListResponse> batchListResponseListFilter = new ArrayList<>();
@@ -130,6 +134,7 @@ public class ProductServiceImpl implements ProductService {
                    batchListResponseListFilter.add(b);
                 }
             }
+            if(batchListResponseListFilter.isEmpty()) throw new CategoryPerDuedateNotFoundException();
             return batchListResponseListFilter;
         }
 

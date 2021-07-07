@@ -6,6 +6,8 @@ import com.mercadolibre.bootcamp_g1_final_project.controller.response.ProductRes
 import com.mercadolibre.bootcamp_g1_final_project.entities.*;
 import com.mercadolibre.bootcamp_g1_final_project.entities.users.Representative;
 import com.mercadolibre.bootcamp_g1_final_project.entities.users.Seller;
+import com.mercadolibre.bootcamp_g1_final_project.exceptions.CategoryPerDuedateNotFoundException;
+import com.mercadolibre.bootcamp_g1_final_project.exceptions.ListProductPerDuedateNotExistException;
 import com.mercadolibre.bootcamp_g1_final_project.exceptions.NotFoundProductInBatch;
 import com.mercadolibre.bootcamp_g1_final_project.exceptions.ProductNotExistException;
 import com.mercadolibre.bootcamp_g1_final_project.repositories.ProductRepository;
@@ -30,6 +32,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.when;
 
@@ -68,14 +71,18 @@ class ProductServiceImplTest {
 
     private final Seller seller1 = new Seller("joao@gmail.com", "1234");
 
-    private final Product product1 = new Product(1, "Lasanha congelada", seller1, ProductType.FF,10.0);
-    private final Product product2 = new Product(2, "Danone", seller1, ProductType.RF,5.0);
-    private final Product product3 = new Product(3, "Tomate", seller1, ProductType.FS,3.0);
+    private final Product product1 = new Product(1, "Lasanha congelada", seller1, ProductType.FF, 10.0);
+    private final Product product2 = new Product(2, "Danone", seller1, ProductType.RF, 5.0);
+    private final Product product3 = new Product(3, "Tomate", seller1, ProductType.FS, 3.0);
     private final List<Product> productslist = List.of(product1, product2, product3);
 
     private final ProductListResponse pr1 = new ProductListResponse(1, "Lasanha congelada");
     private final ProductListResponse pr2 = new ProductListResponse(2, "Danone");
     private final ProductListResponse pr3 = new ProductListResponse(3, "Tomate");
+
+    private final ProductResponse p1 = new ProductResponse(1, "Lasanha congelada", ProductType.FF);
+    private final ProductResponse p2 = new ProductResponse(2, "Danone", ProductType.RF);
+    private final ProductResponse p3 = new ProductResponse(3, "Tomate", ProductType.RF);
 
     Representative representative = new Representative(defaultId, defaultEmail, defaultPassword);
 
@@ -85,6 +92,8 @@ class ProductServiceImplTest {
 
     private final Section section = Section.builder().id(1).name("Fresh").type(ProductType.FS).build();
 
+    LocalDateTime dateTest = LocalDateTime.now();
+
     private final Batch batch = Batch.builder()
             .id(1)
             .product(product1)
@@ -93,7 +102,7 @@ class ProductServiceImplTest {
             .minimumTemperature(20.2F)
             .initialQuantity(40)
             .currentQuantity(10)
-            .dueDate(LocalDate.now())
+            .dueDate(dateTest)
             .manufacturingDate(LocalDateTime.now())
             .build();
 
@@ -105,7 +114,7 @@ class ProductServiceImplTest {
             .batchNumber(1)
             .product(productListResponseExpected)
             .currentQuantity(10)
-            .dueDate(LocalDate.now())
+            .dueDate(dateTest)
             .build();
 
     private final Section frozenSection = new Section(1, "frozen", ProductType.FF);
@@ -115,7 +124,7 @@ class ProductServiceImplTest {
     Warehouse warehouse1 = new Warehouse(1, "algum lugar", "nome 1", List.of(frozenSection, freshSection, refrigeratedSection), List.of(representative), List.of());
 
     @Test
-    void shouldListProduct(){
+    void shouldListProduct() {
         //arrange
         String category = null;
 
@@ -131,7 +140,7 @@ class ProductServiceImplTest {
     }
 
     @Test
-    void shouldListProductFresh(){
+    void shouldListProductFresh() {
         //arrange
         String category = "FS";
 
@@ -147,7 +156,7 @@ class ProductServiceImplTest {
     }
 
     @Test
-    void shouldListProductFrozen(){
+    void shouldListProductFrozen() {
         //arrange
         String category = "FF";
 
@@ -163,7 +172,7 @@ class ProductServiceImplTest {
     }
 
     @Test
-    void shouldListProductRefrigerated(){
+    void shouldListProductRefrigerated() {
         //arrange
         String category = "RF";
 
@@ -179,14 +188,16 @@ class ProductServiceImplTest {
     }
 
     @Test
-    void shouldDoesNotExistListProduct(){
+    void shouldDoesNotExistListProduct() {
         //arrange
         String messageExpected = "Product does not exist.";
         String category = null;
 
         //act
         when(productRepositoryTest.findAll()).thenThrow(new ProductNotExistException());
-        Exception exception = assertThrows(ProductNotExistException.class, () -> {productServiceTest.listProducts(category);});
+        Exception exception = assertThrows(ProductNotExistException.class, () -> {
+            productServiceTest.listProducts(category);
+        });
 
         //assert
         assertEquals(messageExpected, exception.getMessage());
@@ -194,7 +205,7 @@ class ProductServiceImplTest {
 
     //Product in batch teste
     @Test
-    void shouldListProductsInBatch(){
+    void shouldListProductsInBatch() {
         //arrange
         String order = null;
 
@@ -215,7 +226,7 @@ class ProductServiceImplTest {
     }
 
     @Test
-    void shouldListProductsInBatchPerQuantity(){
+    void shouldListProductsInBatchPerQuantity() {
         //arrange
         String order = "C";
 
@@ -227,7 +238,7 @@ class ProductServiceImplTest {
                 .minimumTemperature(20.2F)
                 .initialQuantity(40)
                 .currentQuantity(30)
-                .dueDate(LocalDate.now())
+                .dueDate(dateTest)
                 .manufacturingDate(LocalDateTime.now())
                 .build();
 
@@ -239,7 +250,7 @@ class ProductServiceImplTest {
                 .batchNumber(1)
                 .product(productListResponseExpected)
                 .currentQuantity(30)
-                .dueDate(LocalDate.now())
+                .dueDate(dateTest)
                 .build();
 
         List<BatchListResponse> batchListResponseExpected = List.of(batchResponseExpected, batchResponseExpected1);
@@ -258,10 +269,10 @@ class ProductServiceImplTest {
     }
 
     @Test
-    void shouldListProductsInBatchPerDueDate(){
+    void shouldListProductsInBatchPerDueDate() {
         //arrange
         String order = "F";
-        LocalDate dateTest = LocalDate.of(2021, 7, 7);
+
 
         Batch batch1 = Batch.builder()
                 .id(1)
@@ -302,16 +313,231 @@ class ProductServiceImplTest {
     }
 
     @Test
-    void shouldDoesNotProductInBatch(){
+    void shouldDoesNotProductInBatch() {
         //arrange
         String messageExpected = "There's no linked product in batch";
         String order = null;
 
         //act
         when(batchServiceTest.findBatchesByProductId(1)).thenThrow(new NotFoundProductInBatch());
-        Exception exception = assertThrows(NotFoundProductInBatch.class, () -> {productServiceTest.listProductsInBatch(1, order);});
+        Exception exception = assertThrows(NotFoundProductInBatch.class, () -> {
+            productServiceTest.listProductsInBatch(1, order);
+        });
 
         //assert
         assertEquals(messageExpected, exception.getMessage());
     }
+
+
+    @Test
+    void shouldListProductPerDuedate() {
+        String category = null;
+        //arrange
+        LocalDateTime dateTest = LocalDateTime.of(2021, 7, 2, 12, 04, 02);
+        List<BatchListResponse> batchListResponseExpected = List.of(batchResponseExpected);
+        Batch batch1 = Batch.builder()
+                .id(1)
+                .product(product1)
+                .sector(section)
+                .currentTemperature(30.4F)
+                .minimumTemperature(20.2F)
+                .initialQuantity(40)
+                .currentQuantity(10)
+                .dueDate(dateTest)
+                .manufacturingDate(LocalDateTime.now())
+                .build();
+        List<Section> sectionList = warehouse1.getSection();
+
+        //act
+        securityContextHolder.when(SecurityContextHolder::getContext).thenReturn(securityContext);
+        when(securityContext.getAuthentication()).thenReturn(authentication());
+
+        when(warehouseServiceTest.findByRepresentative(representative)).thenReturn(warehouse1);
+        when(batchServiceTest.findBatchesBySectorIn(sectionList)).thenReturn(List.of(batch, batch1));
+        List<BatchListResponse> batchListResponseTest = productServiceTest.listProductPerDuedata(3, category);
+        //assert
+
+        assertEquals(batchListResponseExpected.size(), batchListResponseTest.size());
+    }
+
+
+    @Test
+    void shouldListProductCategoryRF() {
+        //arrange
+        Integer day = 2;
+        String category = "RF";
+
+        Section section2 = Section.builder().id(1).name("Refrigerated").type(ProductType.RF).build();
+
+        List<BatchListResponse> batchListResponseExpected = List.of(batchResponseExpected);
+
+        LocalDateTime dateTest = LocalDateTime.now();
+
+        Batch batch1 = Batch.builder()
+                .id(1)
+                .product(product2)
+                .sector(section2)
+                .currentTemperature(30.4F)
+                .minimumTemperature(20.2F)
+                .initialQuantity(40)
+                .currentQuantity(10)
+                .dueDate(dateTest)
+                .manufacturingDate(LocalDateTime.now())
+                .build();
+        List<Section> sectionList = warehouse1.getSection();
+
+        //assert
+        securityContextHolder.when(SecurityContextHolder::getContext).thenReturn(securityContext);
+        when(securityContext.getAuthentication()).thenReturn(authentication());
+        when(warehouseServiceTest.findByRepresentative(representative)).thenReturn(warehouse1);
+        when(batchServiceTest.findBatchesBySectorIn(sectionList)).thenReturn(List.of(batch1));
+        List<BatchListResponse> batchListResponseTest = productServiceTest.listProductPerDuedata(day, category);
+
+        assertEquals(batchListResponseExpected.size(), batchListResponseTest.size());
+    }
+
+
+    @Test
+    void shouldListProductCategoryFS() {
+        //arrange
+        Integer day = 2;
+        String category = "FS";
+
+        Section section1 = Section.builder().id(1).name("Fresh").type(ProductType.FS).build();
+
+        List<BatchListResponse> batchListResponseExpected = List.of(batchResponseExpected);
+
+        LocalDateTime dateTest = LocalDateTime.now();
+
+        Batch batch1 = Batch.builder()
+                .id(1)
+                .product(product3)
+                .sector(section1)
+                .currentTemperature(30.4F)
+                .minimumTemperature(20.2F)
+                .initialQuantity(40)
+                .currentQuantity(10)
+                .dueDate(dateTest)
+                .manufacturingDate(LocalDateTime.now())
+                .build();
+        List<Section> sectionList = warehouse1.getSection();
+
+        //assert
+        securityContextHolder.when(SecurityContextHolder::getContext).thenReturn(securityContext);
+        when(securityContext.getAuthentication()).thenReturn(authentication());
+        when(warehouseServiceTest.findByRepresentative(representative)).thenReturn(warehouse1);
+        when(batchServiceTest.findBatchesBySectorIn(sectionList)).thenReturn(List.of(batch1));
+        List<BatchListResponse> batchListResponseTest = productServiceTest.listProductPerDuedata(day, category);
+
+        assertEquals(batchListResponseExpected.size(), batchListResponseTest.size());
+    }
+
+
+    @Test
+    void shouldListProductCategoryFF() {
+        //arrange
+        Integer day = 2;
+        String category = "FF";
+
+        Section section1 = Section.builder().id(1).name("Frozen").type(ProductType.FF).build();
+
+        List<BatchListResponse> batchListResponseExpected = List.of(batchResponseExpected);
+
+        LocalDateTime dateTest = LocalDateTime.now();
+
+        Batch batch1 = Batch.builder()
+                .id(1)
+                .product(product1)
+                .sector(section1)
+                .currentTemperature(30.4F)
+                .minimumTemperature(20.2F)
+                .initialQuantity(40)
+                .currentQuantity(10)
+                .dueDate(dateTest)
+                .manufacturingDate(LocalDateTime.now())
+                .build();
+        List<Section> sectionList = warehouse1.getSection();
+
+        //assert
+        securityContextHolder.when(SecurityContextHolder::getContext).thenReturn(securityContext);
+        when(securityContext.getAuthentication()).thenReturn(authentication());
+        when(warehouseServiceTest.findByRepresentative(representative)).thenReturn(warehouse1);
+        when(batchServiceTest.findBatchesBySectorIn(sectionList)).thenReturn(List.of(batch1));
+        List<BatchListResponse> batchListResponseTest = productServiceTest.listProductPerDuedata(day, category);
+
+        assertEquals(batchListResponseExpected.size(), batchListResponseTest.size());
+    }
+
+    @Test
+    void shouldDoesNotExistListProductPerDuedate() {
+        //arrange
+        String messageExpected = "Product not found in this date range.";
+        String category = null;
+        Integer day = 1;
+
+        LocalDateTime dateTest = LocalDateTime.of(2021, 7, 3, 12, 04, 02);
+
+        Batch batchPerDuedate = Batch.builder()
+                .id(1)
+                .product(product1)
+                .sector(section)
+                .currentTemperature(30.4F)
+                .minimumTemperature(20.2F)
+                .initialQuantity(40)
+                .currentQuantity(10)
+                .dueDate(dateTest)
+                .manufacturingDate(LocalDateTime.now())
+                .build();
+
+        //act
+        securityContextHolder.when(SecurityContextHolder::getContext).thenReturn(securityContext);
+        when(securityContext.getAuthentication()).thenReturn(authentication());
+
+        when(warehouseServiceTest.findByRepresentative(representative)).thenReturn(warehouse1);
+        when(batchServiceTest.findBatchesBySectorIn(any())).thenReturn(List.of(batchPerDuedate));
+        Exception exception = assertThrows(ListProductPerDuedateNotExistException.class, () -> {
+            productServiceTest.listProductPerDuedata(day, category);
+        });
+
+        //assert
+        assertEquals(messageExpected, exception.getMessage());
+    }
+
+    @Test
+    void shouldDoesNotExistListProductCategoryPerDuedate() {
+        //arrange
+        String messageExpected = "Category not found in this date range.";
+        String category = "FF";
+        Integer day = 1;
+
+
+        LocalDateTime dateTest = LocalDateTime.now();
+
+        Batch batchPerDuedateCategory = Batch.builder()
+                .id(1)
+                .product(product2)
+                .sector(section)
+                .currentTemperature(30.4F)
+                .minimumTemperature(20.2F)
+                .initialQuantity(40)
+                .currentQuantity(10)
+                .dueDate(dateTest)
+                .manufacturingDate(LocalDateTime.now())
+                .build();
+
+        //act
+        securityContextHolder.when(SecurityContextHolder::getContext).thenReturn(securityContext);
+        when(securityContext.getAuthentication()).thenReturn(authentication());
+
+        when(warehouseServiceTest.findByRepresentative(representative)).thenReturn(warehouse1);
+        when(batchServiceTest.findBatchesBySectorIn(any())).thenReturn(List.of(batchPerDuedateCategory));
+        Exception exception = assertThrows(CategoryPerDuedateNotFoundException.class, () -> {
+            productServiceTest.listProductPerDuedata(day, category);
+        });
+
+        //assert
+        assertEquals(messageExpected, exception.getMessage());
+
+    }
 }
+

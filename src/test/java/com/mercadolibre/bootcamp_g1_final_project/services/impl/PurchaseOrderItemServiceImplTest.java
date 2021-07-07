@@ -66,5 +66,5 @@ public class PurchaseOrderItemServiceImplTest {
   private final Float defaultMinimumTemperature = 15.5F;
   private final Float defaultCurrentTemperature = 20.4F;
   private final LocalDateTime defaultManufacturingTime = LocalDateTime.now().minusWeeks(4);
-  private final LocalDate defaultDueDate = LocalDate.now().plusWeeks(4);
+  private final LocalDateTime defaultDueDate = LocalDateTime.now().plusWeeks(4);
 }
