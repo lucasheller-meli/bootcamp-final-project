@@ -32,15 +32,10 @@ public class Batch {
 
     @ManyToOne
     private Section sector;
-
     private Float currentTemperature;
-
     private Float minimumTemperature;
-
     private Integer initialQuantity;
-
     private Integer currentQuantity;
-
     private LocalDate dueDate;
 
     @CreationTimestamp

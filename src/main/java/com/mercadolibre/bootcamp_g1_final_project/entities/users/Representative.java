@@ -10,7 +10,12 @@ public class Representative extends User {
         super(email, password);
     }
 
+    public Representative(Integer id, String email, String password) {
+        super(id, email, password);
+    }
+
     public Representative() {
+
     }
 
     @Override

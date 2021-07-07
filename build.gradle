@@ -52,6 +52,7 @@ dependencies {
 	implementation('com.newrelic.agent.java:newrelic-api:6.3.0')
 
 	//Tests
+	testImplementation('org.mockito:mockito-inline:3.11.2')
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
 	testImplementation('org.springframework.security:spring-security-test')
 	testImplementation('org.junit.jupiter:junit-jupiter-api:5.7.0')

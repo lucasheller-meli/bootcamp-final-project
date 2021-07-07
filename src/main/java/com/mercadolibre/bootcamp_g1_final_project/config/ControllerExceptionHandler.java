@@ -78,4 +78,11 @@ public class ControllerExceptionHandler {
 		return warehouseNotExistException.getMessage();
 	}
 
+	@ResponseBody
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	@ExceptionHandler(value = NotFoundProductInBatch.class)
+	public String NotFoundProductInBatch(NotFoundProductInBatch notFoundProductInBatch) {
+		return notFoundProductInBatch.getMessage();
+	}
+
 }
