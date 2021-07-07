@@ -3,6 +3,7 @@ package com.mercadolibre.bootcamp_g1_final_project.services.impl;
 import com.mercadolibre.bootcamp_g1_final_project.controller.request.BatchRequest;
 import com.mercadolibre.bootcamp_g1_final_project.controller.request.InboundOrderRequest;
 import com.mercadolibre.bootcamp_g1_final_project.controller.response.BatchResponse;
+import com.mercadolibre.bootcamp_g1_final_project.controller.response.InboundOrderResponse;
 import com.mercadolibre.bootcamp_g1_final_project.entities.*;
 import com.mercadolibre.bootcamp_g1_final_project.exceptions.ProductNotExistException;
 import com.mercadolibre.bootcamp_g1_final_project.exceptions.SectionInWarehouseNotFoundException;
@@ -102,14 +103,15 @@ class OrderServiceImplTest {
         Mockito.when(sectionServiceTest.findById(1)).thenReturn(sectionTest);
         Mockito.when(orderRepositoryTest.save(any())).thenReturn(inboundOrderTest);
 
-        List<BatchResponse> batchResponseList = orderServiceTest.inboundOrder(inboundOrderRequestTest);
-
-        //act
         List<BatchResponse> batchResponseListExpected = new ArrayList<>();
         batchResponseListExpected.add(batchResponseTest);
 
+
+        //act
+        InboundOrderResponse response = orderServiceTest.inboundOrder(inboundOrderRequestTest);
+
         //assert
-        assertEquals(batchResponseListExpected.size(), batchResponseList.size());
+        assertEquals(batchResponseListExpected.size(), response.getBatches().size());
 
 
     }

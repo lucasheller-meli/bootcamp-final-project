@@ -1,13 +1,17 @@
 package com.mercadolibre.bootcamp_g1_final_project.controller.response;
 
-public class PurchaseOrderItemResponse {
-  private final Integer productId;
-  private final Integer quantity;
 
-  public PurchaseOrderItemResponse(Integer productId, Integer quantity) {
-    this.productId = productId;
-    this.quantity = quantity;
-  }
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class PurchaseOrderItemResponse {
+  private Integer productId;
+  private Integer quantity;
+
 
   public Integer getProductId() {
     return productId;

@@ -12,12 +12,14 @@ import com.mercadolibre.bootcamp_g1_final_project.repositories.SectionRepository
 import com.mercadolibre.bootcamp_g1_final_project.repositories.UserRepository;
 import com.mercadolibre.bootcamp_g1_final_project.repositories.WarehouseRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
 
+@Profile("test")
 @Component
 public class PopulateDatabase implements CommandLineRunner {
     private final UserRepository userRepository;

@@ -4,6 +4,7 @@ import com.mercadolibre.bootcamp_g1_final_project.controller.request.BatchReques
 import com.mercadolibre.bootcamp_g1_final_project.controller.request.InboundOrderRequest;
 import com.mercadolibre.bootcamp_g1_final_project.controller.request.InboundOrderUpdateRequest;
 import com.mercadolibre.bootcamp_g1_final_project.controller.response.BatchResponse;
+import com.mercadolibre.bootcamp_g1_final_project.controller.response.InboundOrderResponse;
 import com.mercadolibre.bootcamp_g1_final_project.controller.response.ProductResponse;
 import com.mercadolibre.bootcamp_g1_final_project.entities.Batch;
 import com.mercadolibre.bootcamp_g1_final_project.entities.InboundOrder;
@@ -41,7 +42,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Transactional
-    public List<BatchResponse> inboundOrder(InboundOrderRequest inboundOrderRequest) throws SectionInWarehouseNotFoundException {
+    public InboundOrderResponse inboundOrder(InboundOrderRequest inboundOrderRequest) throws SectionInWarehouseNotFoundException {
         final Warehouse warehouse = warehouseService.findById(inboundOrderRequest.getWarehouseId());
         final List<Section> sections = warehouse.getSection();
 
@@ -57,7 +58,7 @@ public class OrderServiceImpl implements OrderService {
 
         warehouseService.updateOrders(warehouse,inboundOrderSave);
 
-        return convertBatchToBatchResponse(inboundOrderSave.getBatch());
+        return new InboundOrderResponse(convertBatchToBatchResponse(inboundOrderSave.getBatch()));
     }
 
 

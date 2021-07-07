@@ -1,16 +1,15 @@
 package com.mercadolibre.bootcamp_g1_final_project.controller.response;
 
-
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 
-@Getter
-@AllArgsConstructor
+@Data
 @NoArgsConstructor
-public class LoginResponse {
-    private String email;
-    private String token;
+@AllArgsConstructor
+public class InboundOrderResponse {
 
+    private List<BatchResponse> batches;
 }
