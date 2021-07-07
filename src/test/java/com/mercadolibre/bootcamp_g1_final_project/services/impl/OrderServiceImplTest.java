@@ -42,7 +42,6 @@ class OrderServiceImplTest {
     @InjectMocks
     private OrderServiceImpl orderServiceTest;
 
-
     private final BatchRequest batchRequestTest = BatchRequest.builder()
             .productId(1)
             .currentTemperature(3.4F)

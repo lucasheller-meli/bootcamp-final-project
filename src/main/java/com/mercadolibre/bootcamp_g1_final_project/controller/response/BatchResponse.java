@@ -17,7 +17,7 @@ public class BatchResponse {
     private Float minimumTemperature;
     private Integer initialQuantity;
     private Integer currentQuantity;
-    @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
+    @JsonFormat(pattern = "YYYY-MM-dd")
     private LocalDate dueDate;
     @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
     private LocalDateTime manufacturingDate;
