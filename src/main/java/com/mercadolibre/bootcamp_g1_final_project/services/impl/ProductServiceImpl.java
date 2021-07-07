@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -107,11 +108,14 @@ public class ProductServiceImpl implements ProductService {
 
         Representative representative = (Representative) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Warehouse warehouse = warehouseService.findByRepresentative(representative);
+
         List<Section> sectionList = warehouse.getSection();
 
         List<Batch> batchList = batchService.findBatchesBySectorIn(sectionList);
 
-        List<BatchListResponse> batchListResponseList = convertBatchToBatchResponse(batchList, warehouse).stream().filter(b -> b.getDueDate().isAfter(LocalDate.now().minusWeeks(days))).collect(Collectors.toList());
+        List<BatchListResponse> batchListResponseList = convertBatchToBatchResponse(batchList, warehouse);
+
+        batchListResponseList = batchListResponseList.stream().filter(b -> b.getDueDate().isAfter(LocalDateTime.now().minusDays(days))).collect(Collectors.toList());
 
         //excecao de lista vazia
 

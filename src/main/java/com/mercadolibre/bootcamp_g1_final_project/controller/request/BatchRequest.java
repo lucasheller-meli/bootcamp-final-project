@@ -30,5 +30,5 @@ public class BatchRequest {
     private Integer quantity;
 
     @NotNull(message = "Due date cant be null")
-    private LocalDate dueDate;
+    private LocalDateTime dueDate;
 }
