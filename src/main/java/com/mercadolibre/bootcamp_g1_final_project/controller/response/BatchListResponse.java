@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 
@@ -24,7 +25,7 @@ public class BatchListResponse{
     private ProductListResponse product;
     private Integer currentQuantity;
     @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
-    private LocalDateTime dueDate;
+    private LocalDate dueDate;
 
 
     public static Comparator<BatchListResponse> quantityCompare = new Comparator<BatchListResponse>() {
@@ -40,8 +41,8 @@ public class BatchListResponse{
     public static Comparator<BatchListResponse> duedateCompare = new Comparator<BatchListResponse>() {
         @Override
         public int compare(BatchListResponse b1, BatchListResponse b2) {
-            LocalDateTime duedateB1 = b1.dueDate;
-            LocalDateTime duedateB2 = b2.dueDate;
+            LocalDate duedateB1 = b1.dueDate;
+            LocalDate duedateB2 = b2.dueDate;
 
             return duedateB1.compareTo(duedateB2);
         }

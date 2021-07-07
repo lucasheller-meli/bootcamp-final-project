@@ -26,7 +26,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 
-
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -181,7 +181,7 @@ class ProductServiceImplTest {
                 .minimumTemperature(20.2F)
                 .initialQuantity(40)
                 .currentQuantity(10)
-                .dueDate(LocalDateTime.now())
+                .dueDate(LocalDate.now())
                 .manufacturingDate(LocalDateTime.now())
                 .build();
         List<Batch> listBatchTest = List.of(batch);
@@ -197,7 +197,7 @@ class ProductServiceImplTest {
                 .batchNumber(1)
                 .product(productListResponseExpected)
                 .currentQuantity(10)
-                .dueDate(LocalDateTime.now())
+                .dueDate(LocalDate.now())
                 .build();
 
         List<BatchListResponse> batchListResponseExpected = List.of(batchResponseExpected);
