@@ -117,7 +117,7 @@ public class ProductServiceImpl implements ProductService {
 
         List<BatchListResponse> batchListResponseList = convertBatchToBatchResponse(batchList, warehouse);
 
-        batchListResponseList = batchListResponseList.stream().filter(b -> b.getDueDate().isAfter(LocalDateTime.now().minusDays(days))).collect(Collectors.toList());
+        batchListResponseList = batchListResponseList.stream().filter(b -> b.getDueDate().isBefore(LocalDateTime.now().plusDays(days))).collect(Collectors.toList());
 
         if(batchListResponseList.isEmpty()) throw new ListProductPerDuedateNotExistException();
 
