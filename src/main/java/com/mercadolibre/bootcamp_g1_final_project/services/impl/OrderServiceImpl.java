@@ -1,6 +1,7 @@
 package com.mercadolibre.bootcamp_g1_final_project.services.impl;
 
 import com.mercadolibre.bootcamp_g1_final_project.controller.request.BatchRequest;
+import com.mercadolibre.bootcamp_g1_final_project.controller.request.BatchUpdateRequest;
 import com.mercadolibre.bootcamp_g1_final_project.controller.request.InboundOrderRequest;
 import com.mercadolibre.bootcamp_g1_final_project.controller.request.InboundOrderUpdateRequest;
 import com.mercadolibre.bootcamp_g1_final_project.controller.response.BatchResponse;
@@ -8,6 +9,7 @@ import com.mercadolibre.bootcamp_g1_final_project.controller.response.BatchRespo
 import com.mercadolibre.bootcamp_g1_final_project.exceptions.InboundOrderNotFound;
 import com.mercadolibre.bootcamp_g1_final_project.repositories.InboundOrderRepository;
 
+import com.mercadolibre.bootcamp_g1_final_project.controller.response.InboundOrderResponse;
 import com.mercadolibre.bootcamp_g1_final_project.controller.response.ProductResponse;
 import com.mercadolibre.bootcamp_g1_final_project.entities.Batch;
 import com.mercadolibre.bootcamp_g1_final_project.entities.InboundOrder;
@@ -16,7 +18,6 @@ import com.mercadolibre.bootcamp_g1_final_project.entities.Section;
 import com.mercadolibre.bootcamp_g1_final_project.entities.Warehouse;
 
 import com.mercadolibre.bootcamp_g1_final_project.exceptions.SectionInWarehouseNotFoundException;
-import com.mercadolibre.bootcamp_g1_final_project.repositories.InboundOrderRepository;
 import com.mercadolibre.bootcamp_g1_final_project.repositories.OrderRepository;
 import com.mercadolibre.bootcamp_g1_final_project.services.OrderService;
 import com.mercadolibre.bootcamp_g1_final_project.services.ProductService;
@@ -46,7 +47,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Transactional
-    public List<BatchResponse> inboundOrder(InboundOrderRequest inboundOrderRequest) throws SectionInWarehouseNotFoundException {
+    public InboundOrderResponse inboundOrder(InboundOrderRequest inboundOrderRequest) throws SectionInWarehouseNotFoundException {
         final Warehouse warehouse = warehouseService.findById(inboundOrderRequest.getWarehouseId());
         final List<Section> sections = warehouse.getSection();
 
@@ -62,15 +63,37 @@ public class OrderServiceImpl implements OrderService {
 
         warehouseService.updateOrders(warehouse,inboundOrderSave);
 
-        return convertBatchToBatchResponse(inboundOrderSave.getBatch());
+        return new InboundOrderResponse(convertBatchToBatchResponse(inboundOrderSave.getBatch()));
     }
 
-
+    @Transactional
     public List<BatchResponse> updateInboundOrder(Integer id, InboundOrderUpdateRequest inboundOrderUpdateRequest) {
         InboundOrder order = inboundOrderRepository.findById(id).orElseThrow(() -> new InboundOrderNotFound(id));
-        //refreshOrAddBatches(order, convertBatchRequestToBatch(inboundOrderUpdateRequest.getBatches()));
+        Section section = order.getBatch().get(0).getSector();
+        refreshOrAddBatches(order, convertBatchUpdateRequestToBatch(inboundOrderUpdateRequest.getBatches(),section));
         inboundOrderRepository.save(order);
         return convertBatchToBatchResponse(order.getBatch());
+    }
+
+    private List<Batch> convertBatchUpdateRequestToBatch(List<BatchUpdateRequest> batches, Section commonSection) {
+        final List<Batch> batchList = new ArrayList<>();
+
+        for (BatchUpdateRequest br : batches) {
+            Product product = productService.findById(br.getProductId());
+            Batch batch = Batch.builder()
+                    .product(product)
+                    .id(br.getId())
+                    .sector(commonSection)
+                    .currentTemperature(br.getCurrentTemperature())
+                    .minimumTemperature(br.getMinimumTemperature())
+                    .initialQuantity(br.getQuantity())
+                    .currentQuantity(br.getQuantity())
+                    .dueDate(br.getDueDate())
+                    .build();
+
+            batchList.add(batch);
+        }
+        return batchList;
     }
 
     private void refreshOrAddBatches(InboundOrder order, List<Batch> updatedBatches) {
@@ -100,7 +123,6 @@ public class OrderServiceImpl implements OrderService {
         for (BatchRequest br : batchRequests) {
             Product product = productService.findById(br.getProductId());
             Batch batch = Batch.builder()
-                    .id(br.getId())
                     .sector(section)
                     .product(product)
                     .currentTemperature(br.getCurrentTemperature())

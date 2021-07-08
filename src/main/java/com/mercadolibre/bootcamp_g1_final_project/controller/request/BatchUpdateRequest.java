@@ -1,5 +1,6 @@
 package com.mercadolibre.bootcamp_g1_final_project.controller.request;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,8 +13,10 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BatchRequest {
+public class BatchUpdateRequest  {
 
+    @NotNull(message = "Id cant be null")
+    private Integer id;
 
     @NotNull(message = "Product id cant be null")
     private Integer productId;

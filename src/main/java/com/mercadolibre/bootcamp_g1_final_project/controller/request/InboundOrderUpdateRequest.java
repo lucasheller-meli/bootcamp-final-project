@@ -13,5 +13,5 @@ import java.util.List;
 @NoArgsConstructor
 public class InboundOrderUpdateRequest {
 
-    private List<BatchRequest> batches;
+    private List<BatchUpdateRequest> batches;
 }

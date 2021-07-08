@@ -1,2 +1,5 @@
 # "test" suffix properties file. Scopes name samples: "test", "web-test", "api-test", etc.
 # Overrides application.yml default properties
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
