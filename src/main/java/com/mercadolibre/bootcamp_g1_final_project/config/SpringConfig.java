@@ -32,6 +32,7 @@ public class SpringConfig implements WebMvcConfigurer {
 		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.LOWER_CAMEL_CASE);
 		objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+		objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS,true);
 		objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 		objectMapper.registerModule(new JavaTimeModule());
 		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);

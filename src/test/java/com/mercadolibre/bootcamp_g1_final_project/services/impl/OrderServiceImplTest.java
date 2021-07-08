@@ -10,7 +10,6 @@ import com.mercadolibre.bootcamp_g1_final_project.exceptions.SectionNotExistExce
 import com.mercadolibre.bootcamp_g1_final_project.exceptions.WarehouseNotExistException;
 import com.mercadolibre.bootcamp_g1_final_project.repositories.OrderRepository;
 
-
 import com.mercadolibre.bootcamp_g1_final_project.controller.request.InboundOrderUpdateRequest;
 import com.mercadolibre.bootcamp_g1_final_project.controller.response.BatchResponse;
 import com.mercadolibre.bootcamp_g1_final_project.entities.Batch;
@@ -23,12 +22,14 @@ import com.mercadolibre.bootcamp_g1_final_project.services.ProductService;
 import com.mercadolibre.bootcamp_g1_final_project.util.MockitoExtension;
 import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -58,7 +59,6 @@ class OrderServiceImplTest {
     private InboundOrderRepository inboundOrderRepository;
     @InjectMocks
     private OrderServiceImpl orderServiceTest;
-
 
     private final BatchRequest batchRequestTest = BatchRequest.builder()
             .productId(1)
@@ -94,6 +94,7 @@ class OrderServiceImplTest {
                 .id(1)
                 .currentTemperature(3.4F)
                 .minimumTemperature(3.4F)
+                .product(productTest)
                 .initialQuantity(20)
                 .currentQuantity(20)
                 .build();

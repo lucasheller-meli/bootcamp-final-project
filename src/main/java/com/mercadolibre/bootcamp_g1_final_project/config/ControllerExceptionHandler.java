@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,6 +17,16 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 @ControllerAdvice
 public class ControllerExceptionHandler {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ControllerExceptionHandler.class);
+
+	@ExceptionHandler(BadCredentialsException.class)
+	public ResponseEntity<ApiError> handleBadCredentialsException(BadCredentialsException e) {
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+				.body(new ApiError(
+						HttpStatus.BAD_REQUEST.name(),
+						e.getMessage(),
+						HttpStatus.BAD_REQUEST.value()
+				));
+	}
 
 	@ExceptionHandler(NoHandlerFoundException.class)
 	public ResponseEntity<ApiError> noHandlerFoundException(HttpServletRequest req, NoHandlerFoundException ex) {
@@ -77,4 +88,19 @@ public class ControllerExceptionHandler {
 	public String NotExistWarehouseException(WarehouseNotExistException warehouseNotExistException) {
 		return warehouseNotExistException.getMessage();
 	}
+
+	@ResponseBody
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	@ExceptionHandler(value = ListProductPerDuedateNotExistException.class)
+	public String ListProductPerDuedateNotExistException(ListProductPerDuedateNotExistException listProductPerDuedateNotExistException) {
+		return listProductPerDuedateNotExistException.getMessage();
+	}
+
+	@ResponseBody
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	@ExceptionHandler(value = CategoryPerDuedateNotFoundException.class)
+	public String NotFoundProductInBatch(CategoryPerDuedateNotFoundException categoryPerDuedateNotFoundException) {
+		return categoryPerDuedateNotFoundException.getMessage();
+	}
+
 }

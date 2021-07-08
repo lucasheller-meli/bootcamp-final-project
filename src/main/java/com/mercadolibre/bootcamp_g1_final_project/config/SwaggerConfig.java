@@ -28,7 +28,7 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
                 .paths(PathSelectors.any())
                 .build()
                 .globalOperationParameters(Collections.singletonList(new ParameterBuilder()
-                        .name("Auth")
+                        .name("Authorization")
                         .description("token jwt")
                         .modelRef(new ModelRef("string"))
                         .parameterType("header")

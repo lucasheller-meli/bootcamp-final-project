@@ -25,8 +25,19 @@ public class PurchaseOrder {
   private Buyer buyer;
 
   @OneToMany(cascade = CascadeType.ALL)
-  private List<PurchaseProduct> products;
+  private List<PurchaseOrderItem> products;
 
   @CreationTimestamp
   private LocalDate orderDate;
+
+  public PurchaseOrder(Integer id, Buyer buyer, List<PurchaseOrderItem> products) {
+    this.id = id;
+    this.buyer = buyer;
+    this.products = products;
+  }
+
+  public PurchaseOrder(Buyer buyer, List<PurchaseOrderItem> products) {
+    this.buyer = buyer;
+    this.products = products;
+  }
 }
