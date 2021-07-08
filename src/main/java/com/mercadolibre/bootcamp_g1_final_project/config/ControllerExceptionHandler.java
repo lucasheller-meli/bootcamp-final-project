@@ -89,4 +89,18 @@ public class ControllerExceptionHandler {
 		return warehouseNotExistException.getMessage();
 	}
 
+	@ResponseBody
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	@ExceptionHandler(value = ListProductPerDuedateNotExistException.class)
+	public String ListProductPerDuedateNotExistException(ListProductPerDuedateNotExistException listProductPerDuedateNotExistException) {
+		return listProductPerDuedateNotExistException.getMessage();
+	}
+
+	@ResponseBody
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	@ExceptionHandler(value = CategoryPerDuedateNotFoundException.class)
+	public String NotFoundProductInBatch(CategoryPerDuedateNotFoundException categoryPerDuedateNotFoundException) {
+		return categoryPerDuedateNotFoundException.getMessage();
+	}
+
 }

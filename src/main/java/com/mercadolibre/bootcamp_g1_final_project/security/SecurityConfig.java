@@ -81,6 +81,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/v1/fresh-products/list").permitAll()
                 .antMatchers("/warehouse/{productId}").permitAll()
                 .antMatchers("/api/v1/fresh-products/inboundorder/**").hasAuthority(UserRole.Name.REPRESENTATIVE)
+                .antMatchers("/api/v1/fresh-products/list-batch/**").hasAuthority(UserRole.Name.REPRESENTATIVE)
                 .antMatchers("/api/v1/fresh-products/order/**").hasAuthority(UserRole.Name.BUYER)
                 .anyRequest().authenticated()
                 .and()

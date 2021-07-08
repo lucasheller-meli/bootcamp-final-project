@@ -1,5 +1,7 @@
 package com.mercadolibre.bootcamp_g1_final_project.controller;
 
+import com.mercadolibre.bootcamp_g1_final_project.controller.response.BatchListResponse;
+import com.mercadolibre.bootcamp_g1_final_project.controller.response.ProductListResponse;
 import com.mercadolibre.bootcamp_g1_final_project.controller.response.ProductListResponse;
 import com.mercadolibre.bootcamp_g1_final_project.controller.response.ProductsResponse;
 import com.mercadolibre.bootcamp_g1_final_project.entities.Batch;
@@ -15,7 +17,6 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
-
     private final BatchService batchService;
 
     public ProductController(ProductService productService, BatchService batchService) {
@@ -28,9 +29,14 @@ public class ProductController {
         return ResponseEntity.ok(productService.listProducts(category));
     }
 
-    @GetMapping("/list-batch/{productId}")
-    public List<Batch> listBatch(@PathVariable Integer productId){
-        return batchService.findBatchesByProductId(productId);
+    @GetMapping("/list-batch/{productId}/order")
+    public List<BatchListResponse> listBatch(@PathVariable Integer productId, @RequestParam(required = false) String order){
+        return productService.listProductsInBatch(productId, order);
+    }
+
+    @GetMapping("/duedate/{days}")
+    public List<BatchListResponse> checkBatchPerDuedate(@PathVariable Integer days, @RequestParam(required = false) String category){
+        return productService.listProductPerDuedata(days, category);
     }
 
 }

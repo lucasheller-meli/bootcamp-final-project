@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Data;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -18,7 +17,7 @@ public class BatchResponse {
     private Integer initialQuantity;
     private Integer currentQuantity;
     @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
-    private LocalDate dueDate;
+    private LocalDateTime dueDate;
     @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
     private LocalDateTime manufacturingDate;
 }

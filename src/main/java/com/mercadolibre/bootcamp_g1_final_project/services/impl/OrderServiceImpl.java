@@ -50,7 +50,8 @@ public class OrderServiceImpl implements OrderService {
 
         final InboundOrder inboundOrder = InboundOrder.builder()
                 .warehouse(warehouse)
-                .batch(convertBatchRequestToBatch(inboundOrderRequest.getBatches())).build();
+                .batch(convertBatchRequestToBatch(inboundOrderRequest.getBatches(), inboundOrderRequest.getSectionId()))
+                .build();
 
         final InboundOrder inboundOrderSave = orderRepository.save(inboundOrder);
 
@@ -62,7 +63,7 @@ public class OrderServiceImpl implements OrderService {
 
     public List<BatchResponse> updateInboundOrder(Integer id, InboundOrderUpdateRequest inboundOrderUpdateRequest) {
         InboundOrder order = inboundOrderRepository.findById(id).orElseThrow(() -> new RuntimeException("lascou"));
-        refreshOrAddBatches(order, convertBatchRequestToBatch(inboundOrderUpdateRequest.getBatches()));
+        //refreshOrAddBatches(order, convertBatchRequestToBatch(inboundOrderUpdateRequest.getBatches()));
         inboundOrderRepository.save(order);
         return convertBatchToBatchResponse(order.getBatch());
     }
@@ -86,14 +87,16 @@ public class OrderServiceImpl implements OrderService {
         return false;
     }
 
-    private List<Batch> convertBatchRequestToBatch(List<BatchRequest> batchRequests) {
+    private List<Batch> convertBatchRequestToBatch(List<BatchRequest> batchRequests, Integer sectionId) {
 
         final List<Batch> batchList = new ArrayList<>();
+        Section section = sectionService.findById(sectionId);
 
         for (BatchRequest br : batchRequests) {
             Product product = productService.findById(br.getProductId());
             Batch batch = Batch.builder()
                     .id(br.getId())
+                    .sector(section)
                     .product(product)
                     .currentTemperature(br.getCurrentTemperature())
                     .minimumTemperature(br.getMinimumTemperature())
@@ -104,7 +107,6 @@ public class OrderServiceImpl implements OrderService {
 
             batchList.add(batch);
         }
-
         return batchList;
     }
 
