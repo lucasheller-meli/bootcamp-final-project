@@ -7,7 +7,6 @@ import com.mercadolibre.bootcamp_g1_final_project.controller.response.InboundOrd
 import com.mercadolibre.bootcamp_g1_final_project.exceptions.SectionInWarehouseNotFoundException;
 import com.mercadolibre.bootcamp_g1_final_project.services.OrderService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import javax.validation.Valid;

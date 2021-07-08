@@ -1,6 +1,7 @@
 package com.mercadolibre.bootcamp_g1_final_project.services.impl;
 
 import com.mercadolibre.bootcamp_g1_final_project.controller.request.BatchRequest;
+import com.mercadolibre.bootcamp_g1_final_project.controller.request.BatchUpdateRequest;
 import com.mercadolibre.bootcamp_g1_final_project.controller.request.InboundOrderRequest;
 import com.mercadolibre.bootcamp_g1_final_project.controller.response.BatchResponse;
 import com.mercadolibre.bootcamp_g1_final_project.controller.response.InboundOrderResponse;
@@ -199,9 +200,9 @@ class OrderServiceImplTest {
 
     @Test
     public void updateWithSucess() {
-        InboundOrderUpdateRequest requestMock = InboundOrderUpdateRequest.builder().batches(List.of(BatchRequest.builder()
+        InboundOrderUpdateRequest requestMock = InboundOrderUpdateRequest.builder().batches(List.of(BatchUpdateRequest.builder()
                 .currentTemperature(12F)
-                .minimumTemperature(8F).id(10)
+                .minimumTemperature(8F)
                 .productId(2)
                 .dueDate(LocalDateTime.now())
                 .quantity(5).build())).build();

@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
@@ -30,32 +31,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 public class OrderServiceIntegrationTest extends ControllerTest {
 
-    private final PasswordEncoder encoder;
-
-    private final UserRepository userRepository;
-
-    private final SectionRepository sectionRepository;
-
-    private final ProductRepository productRepository;
-
-    private final WarehouseRepository warehouseRepository;
-
     private final MockMvc mockMvc;
 
     private final ObjectMapper mapper;
 
-    private final TokenService tokenService;
-
     @Autowired
-    public OrderServiceIntegrationTest(PasswordEncoder encoder, UserRepository userRepository, SectionRepository sectionRepository, ProductRepository productRepository, WarehouseRepository warehouseRepository, ObjectMapper mapper, WebApplicationContext webApplicationContext, TokenService tokenService) {
-        this.encoder = encoder;
-        this.userRepository = userRepository;
-        this.sectionRepository = sectionRepository;
-        this.productRepository = productRepository;
-        this.warehouseRepository = warehouseRepository;
+    public OrderServiceIntegrationTest(ObjectMapper mapper, WebApplicationContext webApplicationContext) {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();;
         this.mapper = mapper;
-        this.tokenService = tokenService;
     }
 
     private final BatchRequest batchRequest = BatchRequest.builder()
@@ -63,7 +46,7 @@ public class OrderServiceIntegrationTest extends ControllerTest {
             .currentTemperature(3.4F)
             .minimumTemperature(3.4F)
             .quantity(20)
-            .dueDate(LocalDate.now())
+            .dueDate(LocalDateTime.now())
             .build();
 
     private final InboundOrderRequest orderRequest = InboundOrderRequest
