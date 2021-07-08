@@ -2,6 +2,7 @@ package com.mercadolibre.bootcamp_g1_final_project.security;
 
 import com.mercadolibre.bootcamp_g1_final_project.entities.users.UserRole;
 import com.mercadolibre.bootcamp_g1_final_project.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,6 +27,11 @@ import javax.servlet.http.HttpServletResponse;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserRepository repository;
     private final AuthWithToken authWithToken;
+
+    @Value("${springdoc.api-docs.path}")
+    private String apiDocPath;
+    @Value("${springdoc.swagger-ui.path}")
+    private String swaggerPath;
 
     public SecurityConfig(UserRepository repository, AuthWithToken authWithToken) {
         this.repository = repository;
@@ -70,6 +76,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/v2/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                 .antMatchers("/ping").permitAll()
+                .antMatchers("/fake").permitAll()
                 .antMatchers("/api/v1/auth/login").permitAll()
                 .antMatchers("/api/v1/fresh-products/list").permitAll()
                 .antMatchers("/warehouse/{productId}").permitAll()

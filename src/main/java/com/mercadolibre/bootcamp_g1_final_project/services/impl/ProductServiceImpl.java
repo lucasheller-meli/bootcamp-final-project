@@ -1,5 +1,6 @@
 package com.mercadolibre.bootcamp_g1_final_project.services.impl;
 
+import com.mercadolibre.bootcamp_g1_final_project.controller.response.ProductListResponse;
 import com.mercadolibre.bootcamp_g1_final_project.controller.response.ProductsResponse;
 import com.mercadolibre.bootcamp_g1_final_project.entities.Product;
 import com.mercadolibre.bootcamp_g1_final_project.entities.ProductType;
@@ -25,13 +26,12 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findById(id).orElseThrow(ProductNotExistException::new);
     }
 
-    public List<ProductsResponse> listProducts(String category) throws ProductNotExistException {
+    public ProductListResponse listProducts(String category) throws ProductNotExistException {
         final List<Product> products = (List<Product>) productRepository.findAll();
 
         if (products.isEmpty()) throw new ProductNotExistException();
 
-        return getProductsResponses(category, products);
-
+        return new ProductListResponse(getProductsResponses(category, products));
     }
 
     private List<ProductsResponse> getProductsResponses(String category, List<Product> products) {
