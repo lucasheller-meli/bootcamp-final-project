@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -174,7 +175,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     private boolean expiresSoon(Batch batch) {
-        return batch.getDueDate().isBefore(LocalDate.now().plusWeeks(MINIMUM_WEEKS_TO_EXPIRE));
+        return batch.getDueDate().isBefore(LocalDateTime.now().plusWeeks(MINIMUM_WEEKS_TO_EXPIRE));
     }
 
     private void checkIfBuyersAreEqual(Buyer orderBuyer, Buyer requesterBuyer) {

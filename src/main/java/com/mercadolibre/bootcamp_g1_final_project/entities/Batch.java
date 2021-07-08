@@ -36,7 +36,7 @@ public class Batch {
     private Float minimumTemperature;
     private Integer initialQuantity;
     private Integer currentQuantity;
-    private LocalDate dueDate;
+    private LocalDateTime dueDate;
 
     @CreationTimestamp
     private LocalDateTime manufacturingDate;

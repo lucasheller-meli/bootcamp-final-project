@@ -1,8 +1,7 @@
 package com.mercadolibre.bootcamp_g1_final_project.controller.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.mercadolibre.bootcamp_g1_final_project.entities.Section;
-import com.mercadolibre.bootcamp_g1_final_project.entities.Warehouse;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,7 +21,7 @@ public class BatchListResponse{
     private Integer warehouseId;
     private Integer sectionId;
     private Integer batchNumber;
-    private ProductListResponse product;
+    private ProductResponse product;
     private Integer currentQuantity;
     @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
     private LocalDate dueDate;

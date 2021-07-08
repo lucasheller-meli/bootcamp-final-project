@@ -13,4 +13,6 @@ public interface ProductService {
 
     public List<BatchListResponse> listProductsInBatch(Integer productId, String order);
 
+    public List<BatchListResponse> listProductPerDuedata(Integer days, String order);
+
 }
