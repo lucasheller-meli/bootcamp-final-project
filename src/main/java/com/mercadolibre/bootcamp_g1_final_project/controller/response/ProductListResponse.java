@@ -1,15 +1,19 @@
 package com.mercadolibre.bootcamp_g1_final_project.controller.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+import java.util.List;
+
 public class ProductListResponse {
-    private Integer id;
-    private String name;
+  private List<ProductResponse> products;
+
+  public ProductListResponse(List<ProductResponse> products) {
+    this.products = products;
+  }
+
+  public ProductListResponse() {
+  }
+
+  public List<ProductResponse> getProducts() {
+    return products;
+  }
 }

@@ -4,6 +4,10 @@ import com.mercadolibre.bootcamp_g1_final_project.controller.request.BatchReques
 import com.mercadolibre.bootcamp_g1_final_project.controller.request.InboundOrderRequest;
 import com.mercadolibre.bootcamp_g1_final_project.controller.request.InboundOrderUpdateRequest;
 import com.mercadolibre.bootcamp_g1_final_project.controller.response.BatchResponse;
+
+import com.mercadolibre.bootcamp_g1_final_project.exceptions.InboundOrderNotFound;
+import com.mercadolibre.bootcamp_g1_final_project.repositories.InboundOrderRepository;
+
 import com.mercadolibre.bootcamp_g1_final_project.controller.response.InboundOrderResponse;
 import com.mercadolibre.bootcamp_g1_final_project.controller.response.ProductResponse;
 import com.mercadolibre.bootcamp_g1_final_project.entities.Batch;
@@ -11,6 +15,7 @@ import com.mercadolibre.bootcamp_g1_final_project.entities.InboundOrder;
 import com.mercadolibre.bootcamp_g1_final_project.entities.Product;
 import com.mercadolibre.bootcamp_g1_final_project.entities.Section;
 import com.mercadolibre.bootcamp_g1_final_project.entities.Warehouse;
+
 import com.mercadolibre.bootcamp_g1_final_project.exceptions.SectionInWarehouseNotFoundException;
 import com.mercadolibre.bootcamp_g1_final_project.repositories.InboundOrderRepository;
 import com.mercadolibre.bootcamp_g1_final_project.repositories.OrderRepository;
@@ -63,7 +68,7 @@ public class OrderServiceImpl implements OrderService {
 
 
     public List<BatchResponse> updateInboundOrder(Integer id, InboundOrderUpdateRequest inboundOrderUpdateRequest) {
-        InboundOrder order = inboundOrderRepository.findById(id).orElseThrow(() -> new RuntimeException("lascou"));
+        InboundOrder order = inboundOrderRepository.findById(id).orElseThrow(() -> new InboundOrderNotFound(id));
         //refreshOrAddBatches(order, convertBatchRequestToBatch(inboundOrderUpdateRequest.getBatches()));
         inboundOrderRepository.save(order);
         return convertBatchToBatchResponse(order.getBatch());

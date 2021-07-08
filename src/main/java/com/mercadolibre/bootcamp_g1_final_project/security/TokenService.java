@@ -26,6 +26,18 @@ public class TokenService {
                 .compact();
     }
 
+    public String generateToken(User user){
+        Date now = new Date();
+        Date expiration = new Date(now.getTime() + 1440000);
+        return Jwts.builder()
+            .setIssuer("Login API")
+            .setSubject(user.getId().toString())
+            .setIssuedAt(now)
+            .setExpiration(expiration)
+            .signWith(SignatureAlgorithm.HS256,secret)
+            .compact();
+    }
+
     public boolean isTokenValid(String token){
         try{
             Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token);

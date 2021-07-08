@@ -1,6 +1,7 @@
 package com.mercadolibre.bootcamp_g1_final_project.services.impl;
 
 import com.mercadolibre.bootcamp_g1_final_project.entities.Batch;
+import com.mercadolibre.bootcamp_g1_final_project.entities.Section;
 import com.mercadolibre.bootcamp_g1_final_project.exceptions.NotFoundProductInBatch;
 import com.mercadolibre.bootcamp_g1_final_project.exceptions.ProductNotExistException;
 import com.mercadolibre.bootcamp_g1_final_project.repositories.BatchRepository;
@@ -19,6 +20,10 @@ public class BatchServiceImpl implements BatchService {
 
     public List<Batch> findBatchesByProductId(Integer productId) throws NotFoundProductInBatch {
         return batchRepository.findBatchesByProductId(productId);
+    }
+
+    public List<Batch> findBatchesBySectorIn(List<Section> section){
+        return batchRepository.findBatchesBySectorIn(section);
     }
 
     public Batch save(Batch batch) {
