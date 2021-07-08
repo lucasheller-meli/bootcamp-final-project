@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -21,8 +20,8 @@ public class BatchResponse {
     private Float minimumTemperature;
     private Integer initialQuantity;
     private Integer currentQuantity;
-    @JsonFormat(pattern = "YYYY-MM-dd")
-    private LocalDate dueDate;
+    @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
+    private LocalDateTime dueDate;
     @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
     private LocalDateTime manufacturingDate;
 }

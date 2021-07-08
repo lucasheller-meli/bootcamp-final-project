@@ -49,7 +49,7 @@ class OrderServiceImplTest {
             .currentTemperature(3.4F)
             .minimumTemperature(3.4F)
             .quantity(20)
-            .dueDate(LocalDate.now())
+            .dueDate(LocalDateTime.now())
             .build();
 
     private final Section sectionTest = Section.builder().id(1).name("SectionA").build();
