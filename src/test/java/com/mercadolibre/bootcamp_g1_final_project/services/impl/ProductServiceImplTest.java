@@ -1,5 +1,10 @@
 package com.mercadolibre.bootcamp_g1_final_project.services.impl;
 
+
+import com.mercadolibre.bootcamp_g1_final_project.util.MockitoExtension;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+
 import com.mercadolibre.bootcamp_g1_final_project.controller.response.ProductListResponse;
 import com.mercadolibre.bootcamp_g1_final_project.entities.Product;
 import com.mercadolibre.bootcamp_g1_final_project.entities.ProductType;
@@ -39,6 +44,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class ProductServiceImplTest {
+
 
     @Mock
     private SecurityContext securityContext;
