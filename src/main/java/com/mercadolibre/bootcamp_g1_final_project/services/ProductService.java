@@ -1,9 +1,7 @@
 package com.mercadolibre.bootcamp_g1_final_project.services;
 
 import com.mercadolibre.bootcamp_g1_final_project.controller.response.ProductListResponse;
-import com.mercadolibre.bootcamp_g1_final_project.controller.response.ProductsResponse;
 import com.mercadolibre.bootcamp_g1_final_project.controller.response.BatchListResponse;
-import com.mercadolibre.bootcamp_g1_final_project.controller.response.ProductListResponse;
 import com.mercadolibre.bootcamp_g1_final_project.entities.Product;
 
 import java.util.List;

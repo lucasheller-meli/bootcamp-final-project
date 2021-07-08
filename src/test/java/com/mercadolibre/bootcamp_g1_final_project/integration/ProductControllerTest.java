@@ -59,16 +59,16 @@ public class ProductControllerTest extends ControllerTest {
     ProductListResponse body = Objects.requireNonNull(response.getBody());
     assertEquals(4, body.getProducts().size());
 
-    assertEquals(fresh.getId(), body.getProducts().get(0).getId());
+    assertEquals(fresh.getId(), body.getProducts().get(0).getProductId());
     assertEquals(fresh.getName(), body.getProducts().get(0).getName());
 
-    assertEquals(cheapFrozen.getId(), body.getProducts().get(1).getId());
+    assertEquals(cheapFrozen.getId(), body.getProducts().get(1).getProductId());
     assertEquals(cheapFrozen.getName(), body.getProducts().get(1).getName());
 
-    assertEquals(refrigerated.getId(), body.getProducts().get(2).getId());
+    assertEquals(refrigerated.getId(), body.getProducts().get(2).getProductId());
     assertEquals(refrigerated.getName(), body.getProducts().get(2).getName());
 
-    assertEquals(expensiveFrozen.getId(), body.getProducts().get(3).getId());
+    assertEquals(expensiveFrozen.getId(), body.getProducts().get(3).getProductId());
     assertEquals(expensiveFrozen.getName(), body.getProducts().get(3).getName());
   }
 
@@ -81,10 +81,10 @@ public class ProductControllerTest extends ControllerTest {
     ProductListResponse body = Objects.requireNonNull(response.getBody());
     assertEquals(2, body.getProducts().size());
 
-    assertEquals(cheapFrozen.getId(), body.getProducts().get(0).getId());
+    assertEquals(cheapFrozen.getId(), body.getProducts().get(0).getProductId());
     assertEquals(cheapFrozen.getName(), body.getProducts().get(0).getName());
 
-    assertEquals(expensiveFrozen.getId(), body.getProducts().get(1).getId());
+    assertEquals(expensiveFrozen.getId(), body.getProducts().get(1).getProductId());
     assertEquals(expensiveFrozen.getName(), body.getProducts().get(1).getName());
   }
 }

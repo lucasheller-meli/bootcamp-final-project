@@ -8,8 +8,6 @@ import com.mercadolibre.bootcamp_g1_final_project.entities.users.Representative;
 import com.mercadolibre.bootcamp_g1_final_project.exceptions.CategoryPerDuedateNotFoundException;
 import com.mercadolibre.bootcamp_g1_final_project.exceptions.ListProductPerDuedateNotExistException;
 import com.mercadolibre.bootcamp_g1_final_project.exceptions.NotFoundProductInBatch;
-import com.mercadolibre.bootcamp_g1_final_project.controller.response.ProductListResponse;
-import com.mercadolibre.bootcamp_g1_final_project.controller.response.ProductsResponse;
 import com.mercadolibre.bootcamp_g1_final_project.entities.Product;
 import com.mercadolibre.bootcamp_g1_final_project.entities.ProductType;
 import com.mercadolibre.bootcamp_g1_final_project.exceptions.ProductNotExistException;
@@ -20,7 +18,6 @@ import com.mercadolibre.bootcamp_g1_final_project.services.WarehouseService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,19 +49,19 @@ public class ProductServiceImpl implements ProductService {
         return new ProductListResponse(getProductsResponses(category, products));
     }
 
-    private List<ProductsResponse> getProductsResponses(String category, List<Product> products) {
-        final List<ProductsResponse> productsResponse = new ArrayList<>();
+    private List<ProductResponse> getProductsResponses(String category, List<Product> products) {
+        final List<ProductResponse> productsResponse = new ArrayList<>();
 
         for (Product p : products) {
             ProductType type = p.getType();
 
             if (category != null) {
                 if (type.toString().compareTo(category) == 0) {
-                    ProductsResponse pr = new ProductsResponse(p.getId(), p.getName());
+                    ProductResponse pr = new ProductResponse(p.getId(), p.getName(), p.getType());
                     productsResponse.add(pr);
                 }
             } else {
-                ProductsResponse pr = new ProductsResponse(p.getId(), p.getName());
+                ProductResponse pr = new ProductResponse(p.getId(), p.getName(), p.getType());
                 productsResponse.add(pr);
             }
         }

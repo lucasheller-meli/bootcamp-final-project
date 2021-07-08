@@ -1,11 +1,9 @@
 package com.mercadolibre.bootcamp_g1_final_project.services.impl;
 
 import com.mercadolibre.bootcamp_g1_final_project.controller.response.ProductListResponse;
-import com.mercadolibre.bootcamp_g1_final_project.controller.response.ProductsResponse;
 import com.mercadolibre.bootcamp_g1_final_project.entities.Product;
 import com.mercadolibre.bootcamp_g1_final_project.entities.ProductType;
 import com.mercadolibre.bootcamp_g1_final_project.controller.response.BatchListResponse;
-import com.mercadolibre.bootcamp_g1_final_project.controller.response.ProductListResponse;
 import com.mercadolibre.bootcamp_g1_final_project.controller.response.ProductResponse;
 import com.mercadolibre.bootcamp_g1_final_project.entities.*;
 import com.mercadolibre.bootcamp_g1_final_project.entities.users.Representative;
@@ -31,7 +29,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -80,13 +77,13 @@ class ProductServiceImplTest {
     private final Product product3 = new Product(3, "Tomate", seller1, ProductType.FS, 3.0);
     private final List<Product> productslist = List.of(product1, product2, product3);
 
-    private final ProductListResponse pr1 = new ProductListResponse(1, "Lasanha congelada");
-    private final ProductListResponse pr2 = new ProductListResponse(2, "Danone");
-    private final ProductListResponse pr3 = new ProductListResponse(3, "Tomate");
+    private final ProductResponse pr1 = new ProductResponse(1, "Lasanha congelada", ProductType.FF);
+    private final ProductResponse pr2 = new ProductResponse(2, "Danone", ProductType.RF);
+    private final ProductResponse pr3 = new ProductResponse(3, "Tomate", ProductType.FS);
 
     private final ProductResponse p1 = new ProductResponse(1, "Lasanha congelada", ProductType.FF);
     private final ProductResponse p2 = new ProductResponse(2, "Danone", ProductType.RF);
-    private final ProductResponse p3 = new ProductResponse(3, "Tomate", ProductType.RF);
+    private final ProductResponse p3 = new ProductResponse(3, "Tomate", ProductType.FS);
 
     Representative representative = new Representative(defaultId, defaultEmail, defaultPassword);
 
@@ -135,7 +132,7 @@ class ProductServiceImplTest {
         ProductListResponse productsResponsesExpected = new ProductListResponse(List.of(pr1, pr2, pr3));
 
         //act
-        Mockito.when(productRepositoryTest.findAll()).thenReturn(productslist);
+        when(productRepositoryTest.findAll()).thenReturn(productslist);
         ProductListResponse productsResponseList = productServiceTest.listProducts(category);
 
         //assert
@@ -151,7 +148,7 @@ class ProductServiceImplTest {
         ProductListResponse productsResponsesExpected = new ProductListResponse(List.of(pr3));
 
         //act
-        Mockito.when(productRepositoryTest.findAll()).thenReturn(productslist);
+        when(productRepositoryTest.findAll()).thenReturn(productslist);
         ProductListResponse productsResponseList = productServiceTest.listProducts(category);
 
         //assert
@@ -167,7 +164,7 @@ class ProductServiceImplTest {
         ProductListResponse productsResponsesExpected = new ProductListResponse(List.of(pr1));
 
         //act
-        Mockito.when(productRepositoryTest.findAll()).thenReturn(productslist);
+        when(productRepositoryTest.findAll()).thenReturn(productslist);
         ProductListResponse productsResponseList = productServiceTest.listProducts(category);
 
         //assert
@@ -183,16 +180,12 @@ class ProductServiceImplTest {
         ProductListResponse productsResponsesExpected = new ProductListResponse(List.of(pr2));
 
         //act
-        Mockito.when(productRepositoryTest.findAll()).thenReturn(productslist);
-        ProductListResponse productsResponseList = productServiceTest.listProducts(category);
         when(productRepositoryTest.findAll()).thenReturn(productslist);
-        List<ProductListResponse> productListResponseList = productServiceTest.listProducts(category);
+        ProductListResponse productsResponseList = productServiceTest.listProducts(category);
 
         //assert
         assertEquals(productsResponsesExpected.getProducts().size(), productsResponseList.getProducts().size());
         assertEquals(productsResponsesExpected.getProducts().get(0), productsResponseList.getProducts().get(0));
-        assertEquals(productListResponsesExpected.size(), productListResponseList.size());
-        assertEquals(productListResponsesExpected.get(0), productListResponseList.get(0));
     }
 
     @Test
@@ -341,7 +334,7 @@ class ProductServiceImplTest {
     void shouldListProductPerDuedate() {
         String category = null;
         //arrange
-        LocalDateTime dateTest = LocalDateTime.of(2021, 7, 2, 12, 04, 02);
+        LocalDateTime dateTest = LocalDateTime.now().plusWeeks(9);
         List<BatchListResponse> batchListResponseExpected = List.of(batchResponseExpected);
         Batch batch1 = Batch.builder()
                 .id(1)
@@ -483,7 +476,7 @@ class ProductServiceImplTest {
         String category = null;
         Integer day = 1;
 
-        LocalDateTime dateTest = LocalDateTime.of(2021, 7, 3, 12, 04, 02);
+        LocalDateTime dateTest = LocalDateTime.now().plusWeeks(9);
 
         Batch batchPerDuedate = Batch.builder()
                 .id(1)
