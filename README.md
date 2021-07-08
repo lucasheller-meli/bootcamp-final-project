@@ -1,10 +1,29 @@
-# bootcamp-g1-final-project
+<p align="center">
+  <img src="https://raw.githubusercontent.com/slatedocs/img/main/logo-slate.png" alt="IT Boarding Bootcamp > Java " width="226">
+  <br>
+  <a href="#"><img src="https://github.com/slatedocs/slate/workflows/Build/badge.svg?branch=main" alt="Build Status"></a>
+  <a href="#"><img src="https://img.shields.io/docker/v/slatedocs/slate?sort=semver" alt="Docker Version" /></a>
+</p>
 
-# Spring Boot App model for Java 11
+<p align="center">Projeto final, API documentação.</p>
 
-We provide a basic model for JDK 11 / Spring based web applications.
+# IT Boarding Bootcamp - Java
 
-Please address any questions and comments to [Fury Issue Tracker](https://github.com/mercadolibre/fury/issues).
+### Dependências 
+
+Gradle 7.0.2 </br>
+Java 11 </br>
+MySQL
+
+### Requisistos mínimos
+- Java 11
+- Gradle
+- MySQL
+
+### Swagger 
+- Visualização de todas request e reponses
+
+http://localhost:8080/swagger-ui.html
 
 ## Usage
 
@@ -65,3 +84,4 @@ You can find all available tags for your `Dockerfile.runtime` [here](https://git
 ### Questions
 
 [Release Process Issue Tracker](https://github.com/mercadolibre/fury_release-process/issues)
+
