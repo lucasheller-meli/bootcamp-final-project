@@ -16,7 +16,7 @@ MySQL
 
 # Requisito 6
 
-- Link: 
+- O arquivo do Requisto 06 pode ser encontrado seguindo o caminho src/main/resources/Requisito_Dia_6_PT-BR  
 
 ### Subindo a aplicação
 - Para subirmos precisamos de alguns passos, primeiro devemos executar um comando Docker para instanciarmos um banco de dados mysql na nossa máquina
