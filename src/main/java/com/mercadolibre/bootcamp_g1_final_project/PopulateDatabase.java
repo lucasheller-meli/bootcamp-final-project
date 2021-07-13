@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.List;
 
-//@Profile("test")
+@Profile("local")
 @Component
 public class PopulateDatabase implements CommandLineRunner {
     private final UserRepository userRepository;
@@ -21,16 +21,16 @@ public class PopulateDatabase implements CommandLineRunner {
     private final ProductRepository productRepository;
     private final SectionRepository sectionRepository;
     private final InboundOrderRepository inboundOrderRepository;
-    private final BatchRepository batchRepository;
+    private final PurchaseOrderRepository purchaseOrderRepository;
     private final PasswordEncoder encoder;
 
-    public PopulateDatabase(UserRepository userRepository, WarehouseRepository warehouseRepository, ProductRepository productRepository, SectionRepository sectionRepository, InboundOrderRepository inboundOrderRepository, BatchRepository batchRepository, PasswordEncoder encoder) {
+    public PopulateDatabase(UserRepository userRepository, WarehouseRepository warehouseRepository, ProductRepository productRepository, SectionRepository sectionRepository, InboundOrderRepository inboundOrderRepository, PurchaseOrderRepository purchaseOrderRepository, PasswordEncoder encoder) {
         this.userRepository = userRepository;
         this.warehouseRepository = warehouseRepository;
         this.productRepository = productRepository;
         this.sectionRepository = sectionRepository;
         this.inboundOrderRepository = inboundOrderRepository;
-        this.batchRepository = batchRepository;
+        this.purchaseOrderRepository = purchaseOrderRepository;
         this.encoder = encoder;
     }
 
@@ -47,12 +47,15 @@ public class PopulateDatabase implements CommandLineRunner {
         Warehouse warehouse = warehouseRepository.save(new Warehouse(null, "algum lugar", "nome 1", List.of(frozenSection, freshSection, refrigeratedSection), List.of(representative), List.of()));
         warehouseRepository.save(new Warehouse(null, "outro lugar", "nome 2", List.of(frozenSection, freshSection, refrigeratedSection), List.of(), List.of()));
 
-
         Product lasanha = productRepository.save(new Product(null, "lasanha congelada", seller, ProductType.FF, 22.22));
-        productRepository.save(new Product(null, "laranja", seller, ProductType.FS, 15.6));
-        productRepository.save(new Product(null, "leite", seller, ProductType.RF, 134.2));
-
-        inboundOrderRepository.save(new InboundOrder(987,warehouse, List.of(new Batch(987,lasanha, frozenSection, 10.0F, 5.0F,10,10, LocalDateTime.now(), LocalDateTime.now())), representative, LocalDateTime.now()));
+        Product laranja = productRepository.save(new Product(null, "laranja", seller, ProductType.FS, 15.6));
+        Product leite = productRepository.save(new Product(null, "leite", seller, ProductType.RF, 134.2));
+        Batch batchLasanha = new Batch(null, lasanha, frozenSection, 10.0F, 5.0F, 20, 20, LocalDateTime.now().plusWeeks(5), LocalDateTime.now());
+        Batch batchLaranja = new Batch(null, laranja, freshSection, 20.0F, 15.0F, 20, 20, LocalDateTime.now().plusWeeks(5), LocalDateTime.now());
+        Batch batchLeite = new Batch(null, leite, freshSection, 18.0F, 10.0F, 20, 20, LocalDateTime.now().plusWeeks(5), LocalDateTime.now());
+        inboundOrderRepository.saveAndFlush(new InboundOrder(null,warehouse, List.of(batchLasanha, batchLaranja, batchLeite), representative, LocalDateTime.now()));
+        purchaseOrderRepository.saveAndFlush(new PurchaseOrder(null,buyer,List.of(new PurchaseOrderItem(lasanha,18, List.of(new BatchQuantity(batchLasanha,18))), new PurchaseOrderItem(laranja,4, List.of(new BatchQuantity(batchLaranja, 4))), new PurchaseOrderItem(leite,1, List.of(new BatchQuantity(batchLeite,1))))));
+        purchaseOrderRepository.saveAndFlush(new PurchaseOrder(null,buyer,List.of(new PurchaseOrderItem(leite,2, List.of(new BatchQuantity(batchLeite,2))), new PurchaseOrderItem(laranja,5, List.of(new BatchQuantity(batchLaranja,5))))));
 
     }
 }

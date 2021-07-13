@@ -44,6 +44,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         this.purchaseOrderItemService = purchaseOrderItemService;
     }
 
+    @Transactional
     public PurchaseOrderItemsResponse orderItems(Integer id) {
         return new PurchaseOrderItemsResponse(responseProducts(findById(id).getProducts()));
     }
