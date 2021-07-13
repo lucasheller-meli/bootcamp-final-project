@@ -1,6 +1,5 @@
 package com.mercadolibre.bootcamp_g1_final_project;
 
-import com.mercadolibre.bootcamp_g1_final_project.controller.request.InboundOrderUpdateRequest;
 import com.mercadolibre.bootcamp_g1_final_project.entities.*;
 import com.mercadolibre.bootcamp_g1_final_project.entities.users.Buyer;
 import com.mercadolibre.bootcamp_g1_final_project.entities.users.Representative;
@@ -12,11 +11,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
-@Profile("test")
+//@Profile("test")
 @Component
 public class PopulateDatabase implements CommandLineRunner {
     private final UserRepository userRepository;
@@ -56,5 +53,6 @@ public class PopulateDatabase implements CommandLineRunner {
         productRepository.save(new Product(null, "leite", seller, ProductType.RF, 134.2));
 
         inboundOrderRepository.save(new InboundOrder(987,warehouse, List.of(new Batch(987,lasanha, frozenSection, 10.0F, 5.0F,10,10, LocalDateTime.now(), LocalDateTime.now())), representative, LocalDateTime.now()));
+
     }
 }

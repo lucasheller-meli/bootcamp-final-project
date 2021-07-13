@@ -103,4 +103,11 @@ public class ControllerExceptionHandler {
 		return categoryPerDuedateNotFoundException.getMessage();
 	}
 
+	@ResponseBody
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	@ExceptionHandler(value = PurchasedOrderNotFound.class)
+	public String notFoundOrder(PurchasedOrderNotFound purchasedOrderNotFound) {
+		return purchasedOrderNotFound.getMessage();
+	}
+
 }
